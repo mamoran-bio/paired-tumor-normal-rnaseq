@@ -154,3 +154,24 @@ edited in place.
 | Date | Change | Reason |
 |---|---|---|
 | | | |
+
+## Amendment log
+
+Amendments are appended here with date and reason. Sections above are not
+edited in place.
+
+### 2026-09-16 — Sample selection rules, after inspecting TCGA-BRCA metadata
+
+Metadata for TCGA-BRCA was inspected under the tissue selection rule above:
+metadata only, no count data downloaded. These five rules are fixed before
+any count matrix is retrieved.
+
+1. There were 10 missing values in submitter_id and sample_type_id within the BRCA dataset, so it was necessary to use the TCGA barcode to identify the patient and sample type, as it contains both pieces of data. Otherwise, patient TCGA-A7-A0DC would have been excluded from the analysis.
+
+2. Looking into the BRCA sample types, I found that "Primary Tumor" and "Primary solid Tumor" are the same because positions 14 and 15 in the barcode detail the sample type (both were "01"). Only samples with "01" (primary tumor) and "11" (solid tissue normal) are included; all other sample types are excluded.
+
+3. The BRCA dataset contains 1,256 rows, but only 1,232 unique aliquots. There were 17 duplicated barcodes: aliquots that were sequenced more than once — 10 twice and 7 three times. These duplicate samples (those that were resequenced) were summed, because they are independent reads from the same library; summing is equivalent to deeper sequencing and preserves the count nature of the data, avoiding giving them double mathematical weight.
+
+4. After summing the resequenced runs, 4 of the 113 paired patients had more than one aliquot of the same sample type; for each of these patients, the aliquot with the greatest sequencing depth was selected for the analysis.
+
+5. Patients with metastatic samples were excluded because this paired analysis is designed for primary tumor vs. adjacent normal tissue, and metastasis represents a distinct biological entity. No patient had a metastatic sample as their only tumor sample, so excluding metastatic samples removes no patient from the analysis.
