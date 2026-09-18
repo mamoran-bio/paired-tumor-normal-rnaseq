@@ -175,3 +175,40 @@ any count matrix is retrieved.
 4. After summing the resequenced runs, 4 of the 113 paired patients had more than one aliquot of the same sample type; for each of these patients, the aliquot with the greatest sequencing depth was selected for the analysis.
 
 5. Patients with metastatic samples were excluded because this paired analysis is designed for primary tumor vs. adjacent normal tissue, and metastasis represents a distinct biological entity. No patient had a metastatic sample as their only tumor sample, so excluding metastatic samples removes no patient from the analysis.
+
+
+### 2026-09-18
+
+
+##Tissue selected
+
+Tissue selected: TCGA-BRCA, 113 paired patients — the largest of the 33 TCGA projects, of which 13 meet the pre-specified floor of 20 pairs. Second is KIRC with 72. Selection ran on metadata only; see docs/tissue-pair-counts.csv and R/01-count-pairs.R.
+
+
+## Script
+
+- count_pairs() + check_results() functions with five checks.
+
+- Loop over the 33 projects, CVS sorted.
+
+- Five checks output: all ok.
+
+- Verified against the 113 BRCA variants.
+
+- n_tumor rather than n_tumour
+
+
+## Specific tissue limitations
+
+- Neoadjuvant 111/1/1, with the cohort-selection caveat.
+ 
+- The 113 are those who underwent primary surgery with banked normal tissue, not a random sample.
+
+- ER 78+/21- — PR 69+/30- — HER2 24+/68- with 21 missing | values after resolving the 9 equivocal cases by ISH.
+
+- Two IHC+/ISH- discordances were retained as positive under a declared convention.
+
+- Menopausal status 55 post — 28 pre — 2 peri — 1 indeterminate — 27 NA
+
+- PAM50 emptu across all 113.
+
