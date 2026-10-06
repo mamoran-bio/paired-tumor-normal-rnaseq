@@ -548,17 +548,11 @@ Every reference in the sections above points to this numbering.
 
 #### Subsample pre-check
 
-Before `R/09-subsampling.R` runs at full size, a single paired fit is timed:
-```
-system.time({
-d <- DESeqDataSetFromMatrix(counts_filtered, coldata, ~ patient + condition)
-d <- DESeq(d)
-})
-
-```
-The result is recorded in `docs/sessionInfo.txt`. If the projected total
-time for the 315 fits exceeds a reasonable budget, `n_repeats` is
-reduced further and the reduction is recorded in a follow-up amendment.
+Before `R/09-subsampling.R` runs at full size, a single paired fit is
+timed with `system.time()`. The result is recorded in
+`docs/sessionInfo.txt`. If the projected total time for the 315 fits
+exceeds a reasonable budget, `n_repeats` is reduced further and the
+reduction is recorded in a follow-up amendment.
 
 ### 2026-09-21 — Counts transform and filtering rule (decisions pending)
 
@@ -611,3 +605,146 @@ ad-hoc decision.
 Until both decisions are made and recorded, `R/04-filter-genes.R` retains
 the design-matrix form. The script will be updated alongside the
 amendment that closes this entry.
+
+
+### 2026-09-23 — Deduplication measured on the count matrix
+
+**Superseded by the "Counts transform closed" entry below.** The figures in
+this entry were measured on a run that used `transform_counts()`, which that
+entry withdraws. They are preserved here as a record of what was measured at
+the time; the reproducible figures are in the entry below.
+
+The five rules of 2026-09-16 were applied to the real assay after
+`transform_counts()`. Measured counts:
+
+- Barcodes before rule 3: 1256
+- Unique aliquots after rule 3 (sum of resequenced runs): 1232
+- Groups with more than one aliquot after rule 3: 12 (7 with two, 5
+  with three)
+- Groups with more than one aliquot among the 113 paired patients: 4
+- Aliquots after rule 4 (deepest per patient × type): 1215
+- All 12 duplicate groups are sample type "01" (primary tumour)
+
+The "4 of the 113" stated in the 2026-09-16 entry is confirmed. The 8
+additional duplicate groups belong to patients who do not enter the
+final paired cohort, so they do not affect the analysis. The order
+applied was rules 3 → 4 → 2 (filter to "01"/"11") → pairing, so rule 4
+also processed duplicates that were subsequently discarded. This is
+correct but worth noting: the 1215 figure is larger than the final
+cohort by construction.
+
+### 2026-09-23 — Counts transform closed: compute_read_counts, no scaling
+
+The 2026-09-21 entry left the counts transform open, listing three
+candidates. It is now closed.
+
+**Decision.** `compute_read_counts(rse)` is applied to the RSE, and its
+result is used directly. No library-size scaling is applied anywhere in
+`R/02-load-counts.R`.
+
+**Why not `transform_counts()`.** It rescales each column by its AUC —
+total coverage, including intergenic — to a target size. The resulting
+`colSums` of the gene-level matrix therefore measure the share of
+coverage falling in annotated genes, not sequencing depth: measured on
+BRCA they ranged from 9.95e6 to 42.5e6 (median 39.4e6), a spread driven
+by gene-capture fraction rather than by sequencing depth. This is
+incompatible with two of the curation rules:
+
+- **Rule 3** sums the runs of a resequenced aliquot. Each run is
+  independently rescaled to the target before summing, so the summed
+  aliquot lands at roughly twice the target — double weight, the
+  opposite of what the 2026-09-16 entry states the rule does.
+- **Rule 4** selects the aliquot with the greatest sequencing depth. On
+  a rescaled matrix `colSums` no longer measures sequencing depth, so
+  rule 4 would rank aliquots by gene-capture fraction — a different
+  quantity from the one the rule names.
+
+On unscaled read counts the library sizes range from 12.1e6 to 176.4e6, a
+14.6-fold spread. That is the depth variation rule 4 is written to exploit.
+
+**Why `compute_read_counts()`.** It returns estimated read counts, derived
+by dividing the coverage AUC by the average mapped fragment length from
+the recount3 QC metadata (`recount_qc.star.average_mapped_length`). They
+are not the counts produced by the aligner, but they are on the natural
+scale of sequencing depth — the scale the curation rules require and the
+scale DESeq2 expects.
+
+**Why not scaling at all.** DESeq2 estimates size factors internally from
+the counts it receives. Passing pre-scaled values breaks that correction.
+
+**Measured outputs after the change.**
+
+- RSE dimensions: 63856 genes × 1256 runs
+- Read-count assay max (single gene in a single sample): 19,759,117
+- Library sizes over all 1256 runs: 12,078,452 – 176,403,775
+- Unique aliquots after rule 3: 1232
+- Duplicate groups after rule 3: 12 (7 with two, 5 with three)
+- Duplicate groups by sample type: 01 = 12
+- Aliquots after rule 4: 1215
+- Patients with only a metastatic tumour: 0
+- Aliquots after rule 2: 1208
+- Paired patients: 113
+- Duplicate groups among paired patients: 4
+- Final samples: 226
+- `counts_raw` dimensions: 63856 × 226
+
+All figures above, except the `transform_counts()` quartiles cited under
+"Why not", are printed by `R/02-load-counts.R` at run time. The quartiles
+are a one-off measurement of the previous, incorrect run, recorded here
+as evidence for the decision and not regenerable from the current script.
+
+**On the deduplication counts.** The values 1232 → 1215 → 1208, the 12
+duplicate groups, and the 4 among paired patients are identical to those
+obtained with the previous `transform_counts()` run. This is expected:
+rule 4 keeps exactly one aliquot per patient × type, so the number of kept
+aliquots is invariant by construction. What could differ is *which*
+aliquot is kept in each of the 12 duplicate groups. That comparison was
+not performed. The correction does not depend on the two versions
+disagreeing: it is required because `transform_counts()` ranks aliquots by
+a quantity (gene-capture fraction) that is not the quantity rule 4 names,
+and because DESeq2 must receive unnormalized counts.
+
+### 2026-09-24 — Timing measured
+
+**Closes the 2026-09-18 sizing entry.** A single paired fit on the full
+gene universe was timed with `system.time()`, before any optimisations.
+
+**Environment.** 63,856 genes, 226 samples, design `~ patient + condition`
+(114 coefficients). BLAS multithreaded, ~7 effective threads.
+
+**Measured.**
+
+- elapsed: 25,524 s (7.09 h)
+- user: 94,617 s
+- system: 87,996 s
+- ratio (user + system) / elapsed: ~7.2, confirming ~7 BLAS threads
+
+The `system` time of 24.4 h indicates sustained memory pressure during the
+fit: the host had 4 GB of swap, all of it in use. This is not intrinsic to
+the model but is worth recording as a property of the environment.
+
+**Projected totals with these parameters.**
+
+- Leave-one-out (113 fits): 801 h ≈ 33 days
+- Subsampling (202 fits): 1,432 h ≈ 60 days
+- Total: 93 days. Not viable.
+
+**Two optimisations are required before the analyses run at full size.**
+
+1. `filterByExpr()` on the paired design, reducing the gene universe to
+   the filtered set. Expected factor ~3–4×. This is already planned as
+   `R/04-filter-genes.R`; the timing above was measured without it.
+2. `DESeq(dds, parallel = TRUE)` with `MulticoreParam(workers = 6)`.
+   Parallelises `nbinomWaldTest` across genes, which dominates the
+   runtime. Expected factor ~5× on that phase.
+
+Combined, the projected per-fit cost is ~25 min, giving ~2 days for
+leave-one-out and ~3.5 days for subsampling. The `n_repeats` and
+`n_values` parameters currently recorded in the 2026-09-18 sizing entry
+assume the optimised cost; they are not viable at the unoptimised cost.
+
+**Pending measurement.** The optimised per-fit time will be measured on a
+filtered subset (e.g. 5000 genes with `parallel = TRUE`) before the full
+subsampling and leave-one-out analyses are launched. That measurement,
+and any further revision to the parameters, will be recorded in a
+follow-up entry.
