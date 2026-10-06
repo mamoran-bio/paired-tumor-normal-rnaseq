@@ -748,3 +748,132 @@ filtered subset (e.g. 5000 genes with `parallel = TRUE`) before the full
 subsampling and leave-one-out analyses are launched. That measurement,
 and any further revision to the parameters, will be recorded in a
 follow-up entry.
+
+### 2026-10-06 — Computing environment moved to aarch64
+
+**Reason.** The x86_64 machine used until 2026-10-05 is no longer
+available. From this date the work runs in a container on an Apple M1
+laptop (aarch64, 8 CPUs, 8 GB of RAM, of which 5.3 GiB are allocated to the
+Docker virtual machine). No analysis output (gene list or effect estimate)
+has been recorded: the counts were loaded and the cohort built on
+2026-09-23, and one unoptimised fit was run on 2026-09-24 only to be timed.
+
+**Environment.** `bioconductor/bioconductor_docker:RELEASE_3_23`, pinned in
+`Dockerfile` by the digest of the multi-architecture index, so the same
+file builds on x86_64 and aarch64. The tag is mutable and no longer
+resolves to the digest recorded on 2026-09-14, so the two environments were
+compared directly. `docs/sessionInfo.txt` (x86_64, 2026-09-24) and
+`docs/sessionInfo-arm64.txt` (aarch64, 2026-10-06) both report R 4.6.1,
+OpenBLAS 0.3.26 and LAPACK 3.12.0. Of the 78 packages listed in both
+files, 77 have identical versions; `XML` differs (3.99-0.24 and
+3.99-0.25). These files list loaded namespaces only, so this establishes
+equality for those packages and not for the whole library.
+
+**Data stage validated.** `R/02-load-counts.R` was run in the new
+container on 2026-10-06. Every figure it prints matches the 2026-09-23
+run:
+
+- RSE: 63,856 genes x 1,256 runs
+- read counts: maximum 19,759,117; library size 12,078,452 to 176,403,775
+- after rule 3: 1,232 aliquots; 12 duplicate groups (7 with two, 5 with
+  three), all of sample type 01
+- after rule 4: 1,215 aliquots
+- patients with only a metastatic tumour: 0
+- after rule 2: 1,208 aliquots
+- paired patients: 113; duplicate groups among them: 4
+- `counts_raw`: 63,856 genes x 226 samples
+
+Scope. `counts_raw` is not saved to disk, so the matrices were not
+compared element by element, and which aliquot was kept in each duplicate
+group was not compared. The figures agree; that is evidence, not proof of
+identity.
+
+**Consequences.**
+
+1. Floating-point results (dispersion estimates, coefficients, p-values)
+   are not expected to be bit-identical across platforms. Integer count
+   operations are expected to match, and did. Every result is reported
+   together with the platform that produced it.
+2. The 2026-09-24 timing was measured on x86_64 with ~7 BLAS threads and
+   4 GB of swap. It stands as a measurement of that environment, not of
+   this one, and the 93-day projection is not carried over to this
+   machine. The optimised timing pending in that entry will be measured on
+   aarch64, recorded with the number of workers and the memory available
+   to the container.
+3. `R/02` completed within the 5.3 GiB of the virtual machine; its peak
+   memory was not measured. The number of workers for `parallel = TRUE`
+   will be chosen from a measured peak. The `workers = 6` in the
+   2026-09-24 entry was set for the previous host.
+4. `docs/sessionInfo.txt` is the evidence for the 2026-09-24 timing and is
+   frozen; `docs/sessionInfo-arm64.txt` records the environment validated
+   on 2026-10-06. Earlier entries say `R/11-save-results.R` writes
+   `docs/sessionInfo.txt`. That is amended: `R/11` will write
+   `docs/sessionInfo-analysis.txt`, so neither record is overwritten.
+
+**Unchanged.** The design, thresholds, filtering rules, sample selection
+rules and the counts decision (2026-09-23) are not affected by this entry.
+
+### 2026-10-06 — Correction to the 2026-09-24 entry
+
+The 2026-09-24 entry is left as written. This entry corrects it.
+
+**What was timed.** `DESeq()` was called once, with default arguments, on
+the full matrix (63,856 genes, 226 samples). `parallel = TRUE` was not
+used, so the fit was serial in R. The ratio (user + system) / elapsed =
+7.2 comes from the linear algebra library: BLAS kept ~7 threads busy. The
+timing covers `DESeq()` as a whole; size-factor estimation, dispersion
+estimation and the Wald test were not timed separately.
+
+**Withdrawn from that entry.**
+
+1. That `nbinomWaldTest` dominates the runtime. It was not measured; which
+   phase dominates is unknown.
+2. The description of `parallel = TRUE` as parallelising `nbinomWaldTest`.
+   It is incomplete. In the DESeq2 source (`DESeq2:::DESeqParallel`) the
+   genes are split among workers twice: for the gene-wise dispersion
+   estimates, and for the final dispersion estimates together with the
+   Wald test. The dispersion trend is fitted serially in between. Read in
+   the development version (1.53.6) and confirmed in the installed
+   version (1.52.0).
+3. The expected factor of ~5 from six workers. The baseline already kept
+   ~7 threads busy, so a factor of ~5 over it is not supported by the
+   measurement. The combined projection derived from it (~25 min per fit,
+   ~2 days for leave-one-out, ~3.5 days for subsampling) is withdrawn
+   with it.
+4. That the 24.4 h of `system` time indicate memory pressure. A
+   `docker stats` reading taken about 3 h 40 min into that run shows the
+   container using 4.287 GiB of a 15.49 GiB limit at 757 % CPU. That does
+   not show memory pressure inside the container; swapping at host level,
+   caused by other processes, is not excluded. Overhead from
+   synchronising BLAS threads is a second candidate. The cause is not
+   established.
+
+The factor of ~3-4 expected from `filterByExpr()` is retained as an
+expectation, not a measurement. The elapsed, user and system times of
+2026-09-24 stand as measured.
+
+**Timing protocol, fixed before it is run.** One gene set is used for all
+runs: a seeded random sample of 5,000 genes drawn from those retained by
+`filterByExpr()` (the option used is declared with the result). The first
+5,000 rows are not used, because they are not a representative sample of
+the filtered gene universe. The runs, on aarch64:
+
+- A: serial, default BLAS threads (the configuration of 2026-09-24)
+- B: serial, `OPENBLAS_NUM_THREADS=1`
+- C: `OPENBLAS_NUM_THREADS=1` with `DESeq(parallel = TRUE)` and
+  `MulticoreParam(workers = k)`, for k = 4 and k = 6
+
+In A and B the three phases are timed separately: `estimateSizeFactors()`,
+`estimateDispersions()` and `nbinomWaldTest()`. In C only the total is
+timed, because `parallel` is an argument of `DESeq()` and not of the
+phase functions. For every run, elapsed, user and system time are
+recorded (self and child processes), with the peak memory of the
+container from `docker stats`. A run that exhausts memory is recorded as
+such. The per-fit cost for the filtered gene universe is extrapolated
+from the best configuration only, and labelled as an extrapolation.
+
+**Consequence for the sizing.** The `n_repeats` and `n_values` of the
+2026-09-18 entry remain provisional. The leave-one-out (113 fits) and
+subsampling (202 fits) analyses are not launched until that timing is
+recorded. If the measured cost does not fit the budget, the reduction is
+made in a follow-up amendment, as the 2026-09-18 entry already requires.
