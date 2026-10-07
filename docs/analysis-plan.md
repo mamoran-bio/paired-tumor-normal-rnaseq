@@ -877,3 +877,133 @@ from the best configuration only, and labelled as an extrapolation.
 subsampling (202 fits) analyses are not launched until that timing is
 recorded. If the measured cost does not fit the budget, the reduction is
 made in a follow-up amendment, as the 2026-09-18 entry already requires.
+
+### 2026-10-07 — filterByExpr decision closed: group = condition
+
+The 2026-09-21 entry left open the choice between `design =
+design_paired` and `group = coldata$condition` as the filter passed to
+`edgeR::filterByExpr()`. It is now closed.
+
+**Decision.** The primary filter is
+'''
+    filterByExpr(counts_raw, group = coldata$condition)
+'''
+**What this changes.** The pre-specified filtering section above names
+`filterByExpr()` with default parameters applied to the design matrix.
+Moving to `group =` is a deviation from that pre-specification, and this
+entry records the reason, as the 2026-09-21 entry requires.
+
+**Timing of the decision.** The choice of `group =` was made before the
+two filter outputs were computed. The reason was that `group =`
+corresponds to the tumour-versus-normal comparison the analysis makes,
+whereas `design =` is calibrated to the patient coefficients, and the
+two minimum sample counts (2 and 83) had already been derived from the
+design matrix and the edgeR source. The full reasoning in the "Reasons"
+section below was written after the filters were run; none of it
+depends on the counts of genes kept by each filter. This entry is the
+first written record of the decision. There is no earlier record in the
+repository; before this entry, the choice existed only in a working
+session.
+
+Chronology:
+
+- 2026-09-23: the count matrix was first downloaded and the 113-patient
+  cohort was built.
+- 2026-09-24: a full `DESeq()` fit under `~ patient + condition` was
+  run, for timing purposes only, as recorded in that entry. No
+  differential expression results were inspected or saved from that
+  fit.
+- 2026-10-06: the minimum sample counts (2 for `design =`, 83 for
+  `group =`) were derived. The choice of `group =` was made on that
+  basis. The two filters were then run on the count matrix, and the
+  figures below were obtained, confirming the derivation.
+
+**Measured figures.** All printed by `R/04-filter-genes.R`, reproducible
+by running `R/02`, `R/03` and `R/04` in sequence:
+
+- `design_paired`: 226 rows × 114 columns
+- leverage: constant at 0.504425 across all 226 samples;
+  `1 / max(leverage)` = 1.98
+- `keep_design` (minimum ~2 samples): 35,584 genes
+- `keep_group` (minimum 83 samples): 25,836 genes
+- genes kept by `group` and not by `design`: 0
+- crosstab: `design` only = 9,748 · both = 25,836 · neither = 28,272
+- minimum CPM threshold: 0.149
+- retained after filter: 40.5 % of 63,856 genes
+
+**Reasons.**
+
+`design =` sets the minimum number of samples a gene must be expressed
+in to `1 / max(leverage)`. In this design, every patient contributes
+exactly two samples, so the design is balanced, and all leverages are
+equal at 114 / 226 = 0.504425. The reciprocal gives 1.98, i.e. a gene
+passes if it is expressed in 2 of the 226 samples. That minimum is
+sized for the patient coefficients, 112 of the 114 in the model, each
+estimated from two samples. Those coefficients are not the comparison
+of interest, so `design =` calibrates the filter for a part of the
+model that is not the comparison.
+
+`group =` uses the size of the smaller group instead. With N = 113
+samples per condition and N > 10, edgeR applies the rule
+`10 + (113 - 10) * 0.7 = 82.1`, which means a gene must be expressed in
+83 or more samples. That minimum corresponds to the tumour-versus-normal
+comparison the analysis makes. `group =` ignores the design matrix and
+uses only the group sizes, which is the feature of the design that maps
+to the contrast.
+
+`group =` does not use the tumour-normal difference. It counts the
+number of samples in which a gene is expressed, irrespective of the
+condition each sample belongs to, and the minimum depends only on the
+two group sizes. A gene expressed in 80 tumours and 3 normals is kept,
+as is one expressed in 83 normals and no tumour; a gene expressed in 82
+samples of any composition is dropped. The pre-specified rule that the
+filter never uses the quantity being tested is respected.
+
+`group =` is a subset of `design =`: every gene kept by `group` is also
+kept by `design`, because the same CPM threshold applies to both and
+`group` requires a higher minimum sample count. This is a coherence
+check between the two calls, not a reason to prefer one over the other.
+
+The filtered matrix, `counts_filtered`, remains the single input to both
+the paired and the unpaired `DESeqDataSet`, as the plan requires. Only
+its gene universe changes; the sample columns are the same 226.
+
+**Cost.** 9,748 genes that `design =` keeps are dropped by `group =`.
+These are genes expressed in fewer than 83 samples in total, regardless
+of condition. This is the cost of the stricter threshold. A gene
+confined to tumours is kept only if it is expressed in at least 83 of
+the 113 tumours, which is 73 % of the tumour samples. A gene present in
+half the tumours and in no normal is discarded.
+
+**Correction to the 2026-09-21 entry.** That entry states the paired
+design matrix has 115 columns. The measured value is 114:
+1 intercept, plus 112 patient indicators (113 patients, one as
+reference), plus 1 condition indicator. The 115 figure is not edited in
+place; it is corrected here.
+
+**Analysis 7, redefined.** The plan currently specifies analysis 7 as
+`filterByExpr()` defaults versus a manual rule of at least 10 counts in
+at least N samples. It is redefined as the primary filter
+(`group = condition`) versus the paired-design filter
+(`design = design_paired`). The comparison requires one additional
+paired fit on the 35,584 genes kept by `design =`, because changing the
+gene universe changes dispersion estimation and the multiple-testing
+correction; it is not a re-use of the fit under the primary filter. The
+reported quantities are: how many genes are significant in each fit at
+the primary FDR threshold, the overlap between the two lists, and how
+many of the 9,748 genes unique to `design =` are significant in that
+fit. This is one additional fit, not a re-run of the subsampling or
+leave-one-out analyses.
+
+**Consequences.**
+
+- The gene universe for the analysis is 25,836 genes, down from 63,856
+  — a factor of 2.47. The 2026-10-06 entry recorded a factor of 3–4 as
+  an expectation for the filter; the measured factor replaces it. This
+  is a reduction in the number of genes entering each fit, not in
+  wall-clock time; the timing protocol measures the time separately.
+- The timing protocol (2026-10-06) uses the `group =` filter to define
+  the 5,000-gene sample it times on.
+- The filter is `group =`, not `design =`, in `R/04-filter-genes.R`. The
+  `design =` form is retained in that script for the analysis 7
+  comparison.

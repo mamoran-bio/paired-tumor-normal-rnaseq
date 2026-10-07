@@ -2,11 +2,13 @@
 #
 # Build the paired design matrix, compare the two forms of
 # edgeR::filterByExpr(), and produce `counts_filtered` with the form
-# chosen on 2026-10-06.
+# chosen on 2026-10-06. The choice is recorded in the amendment log
+# entry of 2026-10-07.
 #
 # Decision: the filter uses the biological factor (`group = condition`),
-# not the paired design matrix. Rationale in the amendment log entry of
-# the same date; the summary here is:
+# not the paired design matrix.
+#
+# Rationale in the amendment log entry of 2026-10-07; the summary here is:
 #
 #   `design =` sets the minimum number of samples a gene must be
 #   expressed in to 1 / max(leverage). On this paired design that
@@ -16,7 +18,8 @@
 #   `group =` sizes the filter to the smaller of the two conditions
 #   (113 samples). edgeR's rule for groups this size gives a minimum of
 #   10 + (113 - 10) * 0.7 = 82.1, i.e. a gene must be expressed in 83 or
-#   more samples. That is the comparison the analysis makes.
+#   more samples. That minimum corresponds to the tumour-versus-normal
+#   comparison the analysis makes.
 #
 #   `group =` does not use the tumour-normal difference: it counts in
 #   how many samples a gene is expressed, irrespective of condition, and
