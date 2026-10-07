@@ -885,9 +885,9 @@ design_paired` and `group = coldata$condition` as the filter passed to
 `edgeR::filterByExpr()`. It is now closed.
 
 **Decision.** The primary filter is
-'''
+```
     filterByExpr(counts_raw, group = coldata$condition)
-'''
+```
 **What this changes.** The pre-specified filtering section above names
 `filterByExpr()` with default parameters applied to the design matrix.
 Moving to `group =` is a deviation from that pre-specification, and this
