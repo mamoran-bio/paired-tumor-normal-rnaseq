@@ -1,0 +1,674 @@
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x610f0000]
+[    0.000000] Linux version 7.0.14-linuxkit (root@buildkitsandbox) (gcc (Alpine 15.2.0) 15.2.0, GNU ld (GNU Binutils) 2.45.1) #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 ()
+[    0.000000] OF: reserved mem: Reserved memory: No reserved-memory node in the DT
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.1 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: Trusted OS migration not required
+[    0.000000] psci: SMC Calling Convention v1.0
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000070000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000020fffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000070000000-0x000000020fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000070000000-0x000000020fffffff]
+[    0.000000] percpu: Embedded 32 pages/cpu s90648 r8192 d32232 u131072
+[    0.000000] pcpu-alloc: s90648 r8192 d32232 u131072 alloc=32*4096
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 [0] 4 [0] 5 [0] 6 [0] 7 
+[    0.000000] Detected PIPT I-cache on CPU0
+[    0.000000] CPU features: detected: Address authentication (IMP DEF algorithm)
+[    0.000000] CPU features: detected: GICv3 CPU interface
+[    0.000000] CPU features: detected: Spectre-v4
+[    0.000000] CPU features: detected: Spectre-BHB
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: init=/initd loglevel=1 root=/dev/vdb rootfstype=erofs ro vsyscall=emulate panic=0 eth0.dhcp eth1.dhcp linuxkit.unified_cgroup_hierarchy=1 console=hvc0   virtio_net.disable_csum=1 slub_min_order=2 page_reporting.page_reporting_order=2 vpnkit.connect=connect://2/1999 com.docker.VMID=05b5d261-41c6-4c89-8459-9ab3a241175d
+[    0.000000] Unknown kernel command line parameters "vsyscall=emulate", will be passed to user space.
+[    0.000000] printk: log buffer data + meta data: 131072 + 458752 = 589824 bytes
+[    0.000000] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.000000] software IO TLB: area num 8.
+[    0.000000] software IO TLB: mapped [mem 0x00000000fbfff000-0x00000000fffff000] (64MB)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 1703936
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] SLUB: HWalign=64, Order=2-3, MinObjects=0, CPUs=8, Nodes=1
+[    0.000000] ftrace: allocating 60732 entries in 238 pages
+[    0.000000] ftrace: allocated 238 pages with 6 groups
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=24 to nr_cpu_ids=8.
+[    0.000000] 	Trampoline variant of Tasks RCU enabled.
+[    0.000000] 	Rude variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=8
+[    0.000000] RCU Tasks: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.000000] RCU Tasks Rude: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] GICv3: 224 SPIs implemented
+[    0.000000] GICv3: 0 Extended SPIs implemented
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GICv3: GICv3 features: 16 PPIs, RSS
+[    0.000000] GICv3: GICD_CTLR.DS=1, SCR_EL3.FIQ=0
+[    0.000000] GICv3: CPU0: found redistributor 0 region 0:0x0000000010010000
+[    0.000000] rcu: 	Offload RCU callbacks from CPUs: 0-7.
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.000000] arch_timer: cp15 timer running at 24.00MHz (virt).
+[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+[    0.000000] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+[    0.000113] Console: colour dummy device 80x25
+[    0.000152] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=24000)
+[    0.000154] pid_max: default: 32768 minimum: 301
+[    0.001327] LSM support for eBPF active
+[    0.001471] landlock: Up and running.
+[    0.001579] Mount-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.001619] Mountpoint-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.001765] VFS: Finished mounting rootfs on nullfs
+[    0.002639] rcu: Hierarchical SRCU implementation.
+[    0.002639] rcu: 	Max phase no-delay instances is 400.
+[    0.002838] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.003209] smp: Bringing up secondary CPUs ...
+[    0.003583] Detected PIPT I-cache on CPU1
+[    0.003607] GICv3: CPU1: found redistributor 1 region 0:0x0000000010030000
+[    0.003697] CPU1: Booted secondary processor 0x0000000001 [0x610f0000]
+[    0.004129] Detected PIPT I-cache on CPU2
+[    0.004157] GICv3: CPU2: found redistributor 2 region 0:0x0000000010050000
+[    0.004246] CPU2: Booted secondary processor 0x0000000002 [0x610f0000]
+[    0.004679] Detected PIPT I-cache on CPU3
+[    0.004710] GICv3: CPU3: found redistributor 3 region 0:0x0000000010070000
+[    0.004796] CPU3: Booted secondary processor 0x0000000003 [0x610f0000]
+[    0.005247] Detected PIPT I-cache on CPU4
+[    0.005280] GICv3: CPU4: found redistributor 4 region 0:0x0000000010090000
+[    0.005366] CPU4: Booted secondary processor 0x0000000004 [0x610f0000]
+[    0.005743] Detected PIPT I-cache on CPU5
+[    0.005780] GICv3: CPU5: found redistributor 5 region 0:0x00000000100b0000
+[    0.005865] CPU5: Booted secondary processor 0x0000000005 [0x610f0000]
+[    0.006257] Detected PIPT I-cache on CPU6
+[    0.006298] GICv3: CPU6: found redistributor 6 region 0:0x00000000100d0000
+[    0.006383] CPU6: Booted secondary processor 0x0000000006 [0x610f0000]
+[    0.006755] Detected PIPT I-cache on CPU7
+[    0.006800] GICv3: CPU7: found redistributor 7 region 0:0x00000000100f0000
+[    0.006889] CPU7: Booted secondary processor 0x0000000007 [0x610f0000]
+[    0.006938] smp: Brought up 1 node, 8 CPUs
+[    0.006939] SMP: Total of 8 processors activated.
+[    0.006940] CPU: All CPU(s) started at EL1
+[    0.006941] CPU features: detected: ARMv8.4 Translation Table Level
+[    0.006942] CPU features: detected: Data cache clean to the PoU not required for I/D coherence
+[    0.006943] CPU features: detected: Common not Private translations
+[    0.006943] CPU features: detected: CRC32 instructions
+[    0.006943] CPU features: detected: Data cache clean to Point of Deep Persistence
+[    0.006944] CPU features: detected: Data cache clean to Point of Persistence
+[    0.006944] CPU features: detected: Data independent timing control (DIT)
+[    0.006944] CPU features: detected: E0PD
+[    0.006946] CPU features: detected: Generic authentication (IMP DEF algorithm)
+[    0.006946] CPU features: detected: RCpc load-acquire (LDAPR)
+[    0.006946] CPU features: detected: LSE atomic instructions
+[    0.006947] CPU features: detected: Privileged Access Never
+[    0.006947] CPU features: detected: RAS Extension Support
+[    0.006948] CPU features: detected: Speculation barrier (SB)
+[    0.006949] CPU features: detected: TLB range maintenance instructions
+[    0.006949] CPU features: detected: XNX
+[    0.006950] CPU features: detected: Speculative Store Bypassing Safe (SSBS)
+[    0.027219] alternatives: applying system-wide alternatives
+[    0.047435] Memory: 6570928K/6815744K available (21312K kernel code, 2954K rwdata, 11520K rodata, 2304K init, 704K bss, 238484K reserved, 0K cma-reserved)
+[    0.048088] devtmpfs: initialized
+[    0.048654] posixtimers hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.048714] futex hash table entries: 2048 (131072 bytes on 1 NUMA nodes, total 128 KiB, linear).
+[    0.048743] 23024 pages in range for non-PLT usage
+[    0.048744] 514544 pages in range for PLT usage
+[    0.049225] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.049901] DMA: preallocated 1024 KiB GFP_KERNEL pool for atomic allocations
+[    0.050201] DMA: preallocated 1024 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.050233] audit: initializing netlink subsys (disabled)
+[    0.050365] audit: type=2000 audit(0.030:1): state=initialized audit_enabled=0 res=1
+[    0.050465] cpuidle: using governor menu
+[    0.050500] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+[    0.050772] ASID allocator initialised with 256 entries
+[    0.050815] Serial: AMBA PL011 UART driver
+[    0.051418] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.051419] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+[    0.051420] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+[    0.051420] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+[    0.051421] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.051421] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.051421] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+[    0.051422] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+[    0.052508] raid6: skipped pq benchmark and selected neonx8
+[    0.052509] raid6: using neon recovery algorithm
+[    0.055898] SCSI subsystem initialized
+[    0.055938] usbcore: registered new interface driver usbfs
+[    0.055946] usbcore: registered new interface driver hub
+[    0.055954] usbcore: registered new device driver usb
+[    0.055969] pps_core: LinuxPPS API ver. 1 registered
+[    0.055969] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.056164] vgaarb: loaded
+[    0.066367] clocksource: Switched to clocksource arch_sys_counter
+[    0.066564] VFS: Disk quotas dquot_6.6.0
+[    0.066572] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.067492] netfs: FS-Cache loaded
+[    0.067615] CacheFiles: Loaded
+[    0.071908] NET: Registered PF_INET protocol family
+[    0.072231] IP idents hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.087552] tcp_listen_portaddr_hash hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.087564] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.087568] TCP established hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.087615] TCP bind hash table entries: 65536 (order: 9, 2097152 bytes, linear)
+[    0.088219] TCP: Hash tables configured (established 65536 bind 65536)
+[    0.088236] UDP hash table entries: 4096 (order: 6, 262144 bytes, linear)
+[    0.088254] UDP-Lite hash table entries: 4096 (order: 6, 262144 bytes, linear)
+[    0.088320] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.088583] RPC: Registered named UNIX socket transport module.
+[    0.088584] RPC: Registered udp transport module.
+[    0.088584] RPC: Registered tcp transport module.
+[    0.088584] RPC: Registered tcp-with-tls transport module.
+[    0.088585] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.088587] NET: Registered PF_XDP protocol family
+[    0.088592] PCI: CLS 0 bytes, default 64
+[    0.089820] workingset: timestamp_bits=46 max_order=21 bucket_order=0
+[    0.089954] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.090111] NFS: Registering the id_resolver key type
+[    0.090115] Key type id_resolver registered
+[    0.090116] Key type id_legacy registered
+[    0.090119] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    0.090121] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
+[    0.093465] Key type cifs.idmap registered
+[    0.093685] fuse: init (API version 7.45)
+[    0.093930] SGI XFS with security attributes, no debug enabled
+[    0.094244] 9p: Installing v9fs 9p2000 file system support
+[    0.106173] NET: Registered PF_ALG protocol family
+[    0.106185] xor: measuring software checksum speed
+[    0.106726]    8regs           :  6103 MB/sec
+[    0.107035]    32regs          : 13060 MB/sec
+[    0.107227]    arm64_neon      : 17309 MB/sec
+[    0.107228] xor: using function: arm64_neon (17309 MB/sec)
+[    0.107235] Key type asymmetric registered
+[    0.107237] Asymmetric key parser 'x509' registered
+[    0.107389] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+[    0.107637] io scheduler mq-deadline registered
+[    0.107639] io scheduler kyber registered
+[    0.109103] pl061_gpio 20060000.pl061: PL061 GPIO chip registered
+[    0.109148] pci-host-generic 40000000.pci: host bridge /pci ranges:
+[    0.109153] pci-host-generic 40000000.pci:       IO 0x006fff0000..0x006fffffff -> 0x0000000000
+[    0.109156] pci-host-generic 40000000.pci:      MEM 0x0050000000..0x006ffdffff -> 0x0050000000
+[    0.109157] pci-host-generic 40000000.pci:      MEM 0x0240000000..0x027fffffff -> 0x0240000000
+[    0.109176] pci-host-generic 40000000.pci: ECAM at [mem 0x40000000-0x4fffffff] for [bus 00-ff]
+[    0.109192] pci-host-generic 40000000.pci: PCI host bridge to bus 0000:00
+[    0.109194] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    0.109195] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+[    0.109196] pci_bus 0000:00: root bus resource [mem 0x50000000-0x6ffdffff]
+[    0.109197] pci_bus 0000:00: root bus resource [mem 0x240000000-0x27fffffff]
+[    0.109240] pci 0000:00:00.0: [106b:1a05] type 00 class 0x060000 conventional PCI endpoint
+[    0.109614] pci 0000:00:01.0: [1af4:1041] type 00 class 0x020000 conventional PCI endpoint
+[    0.109698] pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.109702] pci 0000:00:01.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.109907] pci 0000:00:05.0: [1af4:1043] type 00 class 0x078000 conventional PCI endpoint
+[    0.109990] pci 0000:00:05.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.109993] pci 0000:00:05.0: BAR 2 [mem 0x00000000-0x0000007f]
+[    0.110190] pci 0000:00:06.0: [1af4:1042] type 00 class 0x018000 conventional PCI endpoint
+[    0.110286] pci 0000:00:06.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.110289] pci 0000:00:06.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.110478] pci 0000:00:07.0: [1af4:1042] type 00 class 0x018000 conventional PCI endpoint
+[    0.110562] pci 0000:00:07.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.110565] pci 0000:00:07.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.110753] pci 0000:00:08.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.110837] pci 0000:00:08.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.110840] pci 0000:00:08.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.111029] pci 0000:00:09.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.111112] pci 0000:00:09.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.111115] pci 0000:00:09.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.111321] pci 0000:00:0a.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.111404] pci 0000:00:0a.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.111407] pci 0000:00:0a.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.111597] pci 0000:00:0b.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.111680] pci 0000:00:0b.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.111683] pci 0000:00:0b.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.111871] pci 0000:00:0c.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.111954] pci 0000:00:0c.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.111957] pci 0000:00:0c.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.112150] pci 0000:00:0d.0: [1af4:105a] type 00 class 0x018000 conventional PCI endpoint
+[    0.112233] pci 0000:00:0d.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.112236] pci 0000:00:0d.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.112447] pci 0000:00:0e.0: [1af4:1053] type 00 class 0x078000 conventional PCI endpoint
+[    0.112531] pci 0000:00:0e.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.112534] pci 0000:00:0e.0: BAR 2 [mem 0x00000000-0x0000007f]
+[    0.112718] pci 0000:00:0f.0: [1af4:1044] type 00 class 0x100000 conventional PCI endpoint
+[    0.112802] pci 0000:00:0f.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.112804] pci 0000:00:0f.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.112976] pci 0000:00:10.0: [1af4:1045] type 00 class 0x058000 conventional PCI endpoint
+[    0.113059] pci 0000:00:10.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
+[    0.113062] pci 0000:00:10.0: BAR 2 [mem 0x00000000-0x0000003f]
+[    0.113275] pci 0000:00:01.0: BAR 0 [mem 0x240000000-0x240003fff 64bit]: assigned
+[    0.113293] pci 0000:00:05.0: BAR 0 [mem 0x240004000-0x240007fff 64bit]: assigned
+[    0.113309] pci 0000:00:06.0: BAR 0 [mem 0x240008000-0x24000bfff 64bit]: assigned
+[    0.113326] pci 0000:00:07.0: BAR 0 [mem 0x24000c000-0x24000ffff 64bit]: assigned
+[    0.113343] pci 0000:00:08.0: BAR 0 [mem 0x240010000-0x240013fff 64bit]: assigned
+[    0.113359] pci 0000:00:09.0: BAR 0 [mem 0x240014000-0x240017fff 64bit]: assigned
+[    0.113376] pci 0000:00:0a.0: BAR 0 [mem 0x240018000-0x24001bfff 64bit]: assigned
+[    0.113393] pci 0000:00:0b.0: BAR 0 [mem 0x24001c000-0x24001ffff 64bit]: assigned
+[    0.113409] pci 0000:00:0c.0: BAR 0 [mem 0x240020000-0x240023fff 64bit]: assigned
+[    0.113426] pci 0000:00:0d.0: BAR 0 [mem 0x240024000-0x240027fff 64bit]: assigned
+[    0.113442] pci 0000:00:0e.0: BAR 0 [mem 0x240028000-0x24002bfff 64bit]: assigned
+[    0.113459] pci 0000:00:0f.0: BAR 0 [mem 0x24002c000-0x24002ffff 64bit]: assigned
+[    0.113476] pci 0000:00:10.0: BAR 0 [mem 0x240030000-0x240033fff 64bit]: assigned
+[    0.113493] pci 0000:00:05.0: BAR 2 [mem 0x50000000-0x5000007f]: assigned
+[    0.113498] pci 0000:00:0e.0: BAR 2 [mem 0x50000080-0x500000ff]: assigned
+[    0.113504] pci 0000:00:01.0: BAR 2 [mem 0x50000100-0x5000013f]: assigned
+[    0.113510] pci 0000:00:06.0: BAR 2 [mem 0x50000140-0x5000017f]: assigned
+[    0.113515] pci 0000:00:07.0: BAR 2 [mem 0x50000180-0x500001bf]: assigned
+[    0.113521] pci 0000:00:08.0: BAR 2 [mem 0x500001c0-0x500001ff]: assigned
+[    0.113526] pci 0000:00:09.0: BAR 2 [mem 0x50000200-0x5000023f]: assigned
+[    0.113531] pci 0000:00:0a.0: BAR 2 [mem 0x50000240-0x5000027f]: assigned
+[    0.113537] pci 0000:00:0b.0: BAR 2 [mem 0x50000280-0x500002bf]: assigned
+[    0.113542] pci 0000:00:0c.0: BAR 2 [mem 0x500002c0-0x500002ff]: assigned
+[    0.113548] pci 0000:00:0d.0: BAR 2 [mem 0x50000300-0x5000033f]: assigned
+[    0.113553] pci 0000:00:0f.0: BAR 2 [mem 0x50000340-0x5000037f]: assigned
+[    0.113558] pci 0000:00:10.0: BAR 2 [mem 0x50000380-0x500003bf]: assigned
+[    0.113565] pci_bus 0000:00: resource 4 [io  0x0000-0xffff]
+[    0.113566] pci_bus 0000:00: resource 5 [mem 0x50000000-0x6ffdffff]
+[    0.113567] pci_bus 0000:00: resource 6 [mem 0x240000000-0x27fffffff]
+[    0.114355] virtio-pci 0000:00:01.0: enabling device (0000 -> 0002)
+[    0.116539] virtio-pci 0000:00:05.0: enabling device (0000 -> 0002)
+[    0.118535] virtio-pci 0000:00:06.0: enabling device (0000 -> 0002)
+[    0.120533] virtio-pci 0000:00:07.0: enabling device (0000 -> 0002)
+[    0.122532] virtio-pci 0000:00:08.0: enabling device (0000 -> 0002)
+[    0.124756] virtiofs virtio4: discovered new tag: virtiofs0
+[    0.125068] virtio-pci 0000:00:09.0: enabling device (0000 -> 0002)
+[    0.126788] virtiofs virtio5: discovered new tag: virtiofs1
+[    0.127111] virtio-pci 0000:00:0a.0: enabling device (0000 -> 0002)
+[    0.129703] virtiofs virtio6: discovered new tag: virtiofs2
+[    0.129947] virtio-pci 0000:00:0b.0: enabling device (0000 -> 0002)
+[    0.131777] virtiofs virtio7: discovered new tag: virtiofs3
+[    0.132020] virtio-pci 0000:00:0c.0: enabling device (0000 -> 0002)
+[    0.133751] virtiofs virtio8: discovered new tag: virtiofs4
+[    0.133976] virtio-pci 0000:00:0d.0: enabling device (0000 -> 0002)
+[    0.135753] virtiofs virtio9: discovered new tag: ROSETTA
+[    0.136027] virtio-pci 0000:00:0e.0: enabling device (0000 -> 0002)
+[    0.137568] virtio-pci 0000:00:0f.0: enabling device (0000 -> 0002)
+[    0.139541] virtio-pci 0000:00:10.0: enabling device (0000 -> 0002)
+[    0.141972] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.143795] printk: legacy console [hvc0] enabled
+[    0.144397] random: crng init done
+[    0.147796] brd: module loaded
+[    0.149674] loop: module loaded
+[    0.165580] virtio_blk virtio2: 1/0/0 default/read/poll queues
+[    0.165806] virtio_blk virtio2: [vda] 965595136 512-byte logical blocks (494 GB/460 GiB)
+[    0.166219]  vda: vda1
+[    0.166441] virtio_blk virtio3: 1/0/0 default/read/poll queues
+[    0.166607] virtio_blk virtio3: [vdb] 1322176 512-byte logical blocks (677 MB/646 MiB)
+[    0.167678] wireguard: WireGuard 1.0.0 loaded. See www.wireguard.com for information.
+[    0.167679] wireguard: Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+[    0.167768] tun: Universal TUN/TAP device driver, 1.6
+[    0.168408] PPP generic driver version 2.4.2
+[    0.168480] PPP BSD Compression module registered
+[    0.168486] PPP Deflate Compression module registered
+[    0.168486] PPP MPPE Compression module registered
+[    0.168487] NET: Registered PF_PPPOX protocol family
+[    0.168492] PPTP driver version 0.8.5
+[    0.168735] usbcore: registered new interface driver cdc_acm
+[    0.168737] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    0.168741] usbcore: registered new interface driver usblp
+[    0.168745] usbcore: registered new interface driver cdc_wdm
+[    0.168749] usbcore: registered new interface driver usbtmc
+[    0.168857] usbcore: registered new interface driver uas
+[    0.168863] usbcore: registered new interface driver usb-storage
+[    0.168867] usbcore: registered new interface driver ums-alauda
+[    0.168870] usbcore: registered new interface driver ums-cypress
+[    0.168874] usbcore: registered new interface driver ums-datafab
+[    0.168878] usbcore: registered new interface driver ums_eneub6250
+[    0.168881] usbcore: registered new interface driver ums-freecom
+[    0.168885] usbcore: registered new interface driver ums-isd200
+[    0.168889] usbcore: registered new interface driver ums-jumpshot
+[    0.168892] usbcore: registered new interface driver ums-karma
+[    0.168896] usbcore: registered new interface driver ums-onetouch
+[    0.168900] usbcore: registered new interface driver ums-realtek
+[    0.168903] usbcore: registered new interface driver ums-sddr09
+[    0.168964] usbcore: registered new interface driver ums-sddr55
+[    0.168968] usbcore: registered new interface driver ums-usbat
+[    0.168988] usbcore: registered new interface driver usbserial_generic
+[    0.168991] usbserial: USB Serial support registered for generic
+[    0.168994] usbcore: registered new interface driver aircable
+[    0.168996] usbserial: USB Serial support registered for aircable
+[    0.169000] usbcore: registered new interface driver ark3116
+[    0.169002] usbserial: USB Serial support registered for ark3116
+[    0.169012] usbcore: registered new interface driver belkin_sa
+[    0.169014] usbserial: USB Serial support registered for Belkin / Peracom / GoHubs USB Serial Adapter
+[    0.169018] usbcore: registered new interface driver ch341
+[    0.169020] usbserial: USB Serial support registered for ch341-uart
+[    0.169023] usbcore: registered new interface driver cp210x
+[    0.169025] usbserial: USB Serial support registered for cp210x
+[    0.169028] usbcore: registered new interface driver cyberjack
+[    0.169030] usbserial: USB Serial support registered for Reiner SCT Cyberjack USB card reader
+[    0.169033] usbcore: registered new interface driver cypress_m8
+[    0.169035] usbserial: USB Serial support registered for DeLorme Earthmate USB
+[    0.169037] usbserial: USB Serial support registered for HID->COM RS232 Adapter
+[    0.169039] usbserial: USB Serial support registered for Nokia CA-42 V2 Adapter
+[    0.169043] usbcore: registered new interface driver usb_debug
+[    0.169045] usbserial: USB Serial support registered for debug
+[    0.169047] usbserial: USB Serial support registered for xhci_dbc
+[    0.169062] usbcore: registered new interface driver digi_acceleport
+[    0.169064] usbserial: USB Serial support registered for Digi 2 port USB adapter
+[    0.169066] usbserial: USB Serial support registered for Digi 4 port USB adapter
+[    0.169070] usbcore: registered new interface driver io_edgeport
+[    0.169071] usbserial: USB Serial support registered for Edgeport 2 port adapter
+[    0.169073] usbserial: USB Serial support registered for Edgeport 4 port adapter
+[    0.169075] usbserial: USB Serial support registered for Edgeport 8 port adapter
+[    0.169077] usbserial: USB Serial support registered for EPiC device
+[    0.169080] usbcore: registered new interface driver io_ti
+[    0.169083] usbserial: USB Serial support registered for Edgeport TI 1 port adapter
+[    0.169085] usbserial: USB Serial support registered for Edgeport TI 2 port adapter
+[    0.169094] usbcore: registered new interface driver empeg
+[    0.169096] usbserial: USB Serial support registered for empeg
+[    0.169101] usbcore: registered new interface driver f81534a_ctrl
+[    0.169104] usbcore: registered new interface driver f81232
+[    0.169106] usbserial: USB Serial support registered for f81232
+[    0.169108] usbserial: USB Serial support registered for f81534a
+[    0.169111] usbcore: registered new interface driver f81534
+[    0.169113] usbserial: USB Serial support registered for Fintek F81532/F81534
+[    0.169123] usbcore: registered new interface driver ftdi_sio
+[    0.169126] usbserial: USB Serial support registered for FTDI USB Serial Device
+[    0.169129] usbcore: registered new interface driver garmin_gps
+[    0.169131] usbserial: USB Serial support registered for Garmin GPS usb/tty
+[    0.169134] usbcore: registered new interface driver ipaq
+[    0.169136] usbserial: USB Serial support registered for PocketPC PDA
+[    0.169139] usbcore: registered new interface driver ipw
+[    0.169141] usbserial: USB Serial support registered for IPWireless converter
+[    0.169152] usbcore: registered new interface driver ir_usb
+[    0.169154] usbserial: USB Serial support registered for IR Dongle
+[    0.169157] usbcore: registered new interface driver iuu_phoenix
+[    0.169159] usbserial: USB Serial support registered for iuu_phoenix
+[    0.169162] usbcore: registered new interface driver keyspan
+[    0.169164] usbserial: USB Serial support registered for Keyspan - (without firmware)
+[    0.169166] usbserial: USB Serial support registered for Keyspan 1 port adapter
+[    0.169168] usbserial: USB Serial support registered for Keyspan 2 port adapter
+[    0.169170] usbserial: USB Serial support registered for Keyspan 4 port adapter
+[    0.169180] usbcore: registered new interface driver keyspan_pda
+[    0.169182] usbserial: USB Serial support registered for Keyspan PDA
+[    0.169184] usbserial: USB Serial support registered for Keyspan PDA - (prerenumeration)
+[    0.169187] usbcore: registered new interface driver kl5kusb105
+[    0.169189] usbserial: USB Serial support registered for KL5KUSB105D / PalmConnect
+[    0.169192] usbcore: registered new interface driver kobil_sct
+[    0.169194] usbserial: USB Serial support registered for KOBIL USB smart card terminal
+[    0.169197] usbcore: registered new interface driver mct_u232
+[    0.169199] usbserial: USB Serial support registered for MCT U232
+[    0.169203] usbcore: registered new interface driver metro_usb
+[    0.169205] usbserial: USB Serial support registered for Metrologic USB to Serial
+[    0.169208] usbcore: registered new interface driver mos7720
+[    0.169210] usbserial: USB Serial support registered for Moschip 2 port adapter
+[    0.169213] usbcore: registered new interface driver mos7840
+[    0.169220] usbserial: USB Serial support registered for Moschip 7840/7820 USB Serial Driver
+[    0.169223] usbcore: registered new interface driver mxuport
+[    0.169225] usbserial: USB Serial support registered for MOXA UPort
+[    0.169228] usbcore: registered new interface driver navman
+[    0.169230] usbserial: USB Serial support registered for navman
+[    0.169245] usbcore: registered new interface driver omninet
+[    0.169247] usbserial: USB Serial support registered for ZyXEL - omni.net usb
+[    0.169250] usbcore: registered new interface driver opticon
+[    0.169252] usbserial: USB Serial support registered for opticon
+[    0.169255] usbcore: registered new interface driver option
+[    0.169257] usbserial: USB Serial support registered for GSM modem (1-port)
+[    0.169260] usbcore: registered new interface driver oti6858
+[    0.169282] usbserial: USB Serial support registered for oti6858
+[    0.169285] usbcore: registered new interface driver pl2303
+[    0.169288] usbserial: USB Serial support registered for pl2303
+[    0.169291] usbcore: registered new interface driver qcaux
+[    0.169293] usbserial: USB Serial support registered for qcaux
+[    0.169296] usbcore: registered new interface driver qcserial
+[    0.169298] usbserial: USB Serial support registered for Qualcomm USB modem
+[    0.169302] usbcore: registered new interface driver quatech2
+[    0.169304] usbserial: USB Serial support registered for Quatech 2nd gen USB to Serial Driver
+[    0.169307] usbcore: registered new interface driver safe_serial
+[    0.169309] usbserial: USB Serial support registered for safe_serial
+[    0.169313] usbcore: registered new interface driver sierra
+[    0.169315] usbserial: USB Serial support registered for Sierra USB modem
+[    0.169318] usbcore: registered new interface driver usb_serial_simple
+[    0.169320] usbserial: USB Serial support registered for carelink
+[    0.169323] usbserial: USB Serial support registered for flashloader
+[    0.169325] usbserial: USB Serial support registered for funsoft
+[    0.169327] usbserial: USB Serial support registered for google
+[    0.169329] usbserial: USB Serial support registered for hp4x
+[    0.169331] usbserial: USB Serial support registered for kaufmann
+[    0.169333] usbserial: USB Serial support registered for libtransistor
+[    0.169335] usbserial: USB Serial support registered for moto_modem
+[    0.169337] usbserial: USB Serial support registered for motorola_tetra
+[    0.169346] usbserial: USB Serial support registered for nokia
+[    0.169348] usbserial: USB Serial support registered for novatel_gps
+[    0.169350] usbserial: USB Serial support registered for owon
+[    0.169352] usbserial: USB Serial support registered for siemens_mpi
+[    0.169354] usbserial: USB Serial support registered for suunto
+[    0.169356] usbserial: USB Serial support registered for vivopay
+[    0.169358] usbserial: USB Serial support registered for zio
+[    0.169362] usbcore: registered new interface driver spcp8x5
+[    0.169364] usbserial: USB Serial support registered for SPCP8x5
+[    0.169373] usbcore: registered new interface driver ssu100
+[    0.169375] usbserial: USB Serial support registered for Quatech SSU-100 USB to Serial Driver
+[    0.169378] usbcore: registered new interface driver symbolserial
+[    0.169381] usbserial: USB Serial support registered for symbol
+[    0.169384] usbcore: registered new interface driver ti_usb_3410_5052
+[    0.169387] usbserial: USB Serial support registered for TI USB 3410 1 port adapter
+[    0.169389] usbserial: USB Serial support registered for TI USB 5052 2 port adapter
+[    0.169393] usbcore: registered new interface driver upd78f0730
+[    0.169395] usbserial: USB Serial support registered for upd78f0730
+[    0.169398] usbcore: registered new interface driver visor
+[    0.169401] usbserial: USB Serial support registered for Handspring Visor / Palm OS
+[    0.169403] usbserial: USB Serial support registered for Sony Clie 5.0
+[    0.169405] usbserial: USB Serial support registered for Sony Clie 3.5
+[    0.169408] usbcore: registered new interface driver wishbone_serial
+[    0.169410] usbserial: USB Serial support registered for wishbone_serial
+[    0.169414] usbcore: registered new interface driver whiteheat
+[    0.169416] usbserial: USB Serial support registered for Connect Tech - WhiteHEAT - (prerenumeration)
+[    0.169418] usbserial: USB Serial support registered for Connect Tech - WhiteHEAT
+[    0.169422] usbcore: registered new interface driver xr_serial
+[    0.169424] usbserial: USB Serial support registered for xr_serial
+[    0.169427] usbcore: registered new interface driver xsens_mt
+[    0.169439] usbserial: USB Serial support registered for xsens_mt
+[    0.169547] vhci_hcd vhci_hcd.0: USB/IP Virtual Host Controller
+[    0.169601] vhci_hcd vhci_hcd.0: new USB bus registered, assigned bus number 1
+[    0.169608] vhci_hcd vhci_hcd.0: created sysfs vhci_hcd.0
+[    0.169647] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 7.00
+[    0.169649] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    0.169650] usb usb1: Product: USB/IP Virtual Host Controller
+[    0.169651] usb usb1: Manufacturer: Linux 7.0.14-linuxkit vhci_hcd
+[    0.169651] usb usb1: SerialNumber: vhci_hcd.0
+[    0.169754] hub 1-0:1.0: USB hub found
+[    0.169759] hub 1-0:1.0: 8 ports detected
+[    0.169823] vhci_hcd vhci_hcd.0: USB/IP Virtual Host Controller
+[    0.169884] vhci_hcd vhci_hcd.0: new USB bus registered, assigned bus number 2
+[    0.169896] usb usb2: We don't know the algorithms for LPM for this host, disabling LPM.
+[    0.169908] usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 7.00
+[    0.169909] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    0.169910] usb usb2: Product: USB/IP Virtual Host Controller
+[    0.169911] usb usb2: Manufacturer: Linux 7.0.14-linuxkit vhci_hcd
+[    0.169911] usb usb2: SerialNumber: vhci_hcd.0
+[    0.169999] hub 2-0:1.0: USB hub found
+[    0.170003] hub 2-0:1.0: 8 ports detected
+[    0.170120] mousedev: PS/2 mouse device common for all mice
+[    0.170259] rtc-pl031 20050000.pl031: registered as rtc0
+[    0.170275] rtc-pl031 20050000.pl031: setting system clock to 2026-10-09T21:29:38 UTC (1791581378)
+[    0.170315] i2c_dev: i2c /dev entries driver
+[    0.170371] device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+[    0.170416] usbcore: registered new interface driver usbhid
+[    0.170417] usbhid: USB HID core driver
+[    0.170549] GACT probability on
+[    0.170551] Mirror/redirect action on
+[    0.170554] Simple TC action Loaded
+[    0.170617] netem: version 1.3
+[    0.170619] u32 classifier
+[    0.170619]     Performance counters on
+[    0.170619]     input device check on
+[    0.170620]     Actions configured
+[    0.171968] xt_time: kernel timezone is -0000
+[    0.171990] IPVS: Registered protocols (TCP, UDP)
+[    0.171994] IPVS: Connection hash table configured (size=4096, memory=32Kbytes)
+[    0.171995] IPVS: Each connection entry needs 288 bytes at least
+[    0.172026] IPVS: ipvs loaded.
+[    0.172027] IPVS: [rr] scheduler registered.
+[    0.172027] IPVS: [wrr] scheduler registered.
+[    0.172028] IPVS: [sh] scheduler registered.
+[    0.172061] ipip: IPv4 and MPLS over IPv4 tunneling driver
+[    0.172127] gre: GRE over IPv4 demultiplexer driver
+[    0.172128] ip_gre: GRE over IPv4 tunneling driver
+[    0.172249] IPv4 over IPsec tunneling driver
+[    0.172349] Initializing XFRM netlink socket
+[    0.172373] NET: Registered PF_INET6 protocol family
+[    0.172802] Segment Routing with IPv6
+[    0.172807] In-situ OAM (IOAM) with IPv6
+[    0.172827] mip6: Mobile IPv6
+[    0.172903] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    0.173017] ip6_gre: GRE over IPv6 tunneling driver
+[    0.173067] NET: Registered PF_PACKET protocol family
+[    0.173068] PFKEY is deprecated and scheduled to be removed in 2027, please contact the netdev mailing list
+[    0.173069] NET: Registered PF_KEY protocol family
+[    0.173087] Bridge firewalling registered
+[    0.173162] l2tp_core: L2TP core driver, V2.0
+[    0.173163] l2tp_ppp: PPPoL2TP kernel driver, V2.0
+[    0.173164] 8021q: 802.1Q VLAN Support v1.8
+[    0.173174] sctp: Hash tables configured (bind 256/256)
+[    0.173231] 9pnet: Installing 9P2000 support
+[    0.173249] Key type dns_resolver registered
+[    0.173250] openvswitch: Open vSwitch switching datapath
+[    0.173405] NET: Registered PF_VSOCK protocol family
+[    0.174139] mpls_gso: MPLS GSO support
+[    0.175580] registered taskstats version 1
+[    0.177553] Key type .fscrypt registered
+[    0.177555] Key type fscrypt-provisioning registered
+[    0.177785] Btrfs loaded, zoned=no, fsverity=no
+[    0.177819] Key type encrypted registered
+[    0.178014] gtp: GTP module loaded (pdp ctx size 128 bytes)
+[    0.273688] clk: Disabling unused clocks
+[    0.273825] erofs (device vdb): mounted with root inode @ nid 36.
+[    0.273843] VFS: Mounted root (erofs filesystem) readonly on device 254:16.
+[    0.273866] devtmpfs: mounted
+[    0.273956] VFS: Pivoted into new rootfs
+[    0.274708] Freeing unused kernel memory: 2304K
+[    0.274738] Run /initd as init process
+[    0.274739]   with arguments:
+[    0.274740]     /initd
+[    0.274740]   with environment:
+[    0.274741]     HOME=/
+[    0.274741]     TERM=linux
+[    0.274741]     vsyscall=emulate
+[    0.411095] netlink: 'initd': attribute type 4 has an invalid length.
+[    0.575602] fakeowner: loading out-of-tree module taints kernel.
+[    0.609088] grpcfuse module loaded
+[    0.663323] EXT4-fs (vda1): mounted filesystem a58cb1bd-f681-4f6b-86e4-380335ada7e7 r/w with ordered data mode. Quota mode: none.
+[    0.701026] NOTICE: Automounting of tracing to debugfs is deprecated and will be removed in 2030
+[    0.714102] Adding 2621436k swap on /var/lib/swap.  Priority:-1 extents:4 across:15114236k 
+[  117.247786] docker0: port 1(veth96fd11d) entered blocking state
+[  117.247807] docker0: port 1(veth96fd11d) entered disabled state
+[  117.247824] veth96fd11d: entered allmulticast mode
+[  117.247858] veth96fd11d: entered promiscuous mode
+[  117.250195] eth0: renamed from veth606c958
+[  117.250582] docker0: port 1(veth96fd11d) entered blocking state
+[  117.250586] docker0: port 1(veth96fd11d) entered forwarding state
+[  117.315889] docker0: port 1(veth96fd11d) entered disabled state
+[  117.315929] veth606c958: renamed from eth0
+[  117.330385] docker0: port 1(veth96fd11d) entered disabled state
+[  117.330589] veth96fd11d (unregistering): left allmulticast mode
+[  117.330593] veth96fd11d (unregistering): left promiscuous mode
+[  117.330595] docker0: port 1(veth96fd11d) entered disabled state
+[  335.276883] docker0: port 1(veth6eac77f) entered blocking state
+[  335.276925] docker0: port 1(veth6eac77f) entered disabled state
+[  335.276932] veth6eac77f: entered allmulticast mode
+[  335.276978] veth6eac77f: entered promiscuous mode
+[  335.279837] eth0: renamed from vethe9d4d5f
+[  335.280317] docker0: port 1(veth6eac77f) entered blocking state
+[  335.280320] docker0: port 1(veth6eac77f) entered forwarding state
+[  335.350967] docker0: port 1(veth6eac77f) entered disabled state
+[  335.351004] vethe9d4d5f: renamed from eth0
+[  335.369902] docker0: port 1(veth6eac77f) entered disabled state
+[  335.370089] veth6eac77f (unregistering): left allmulticast mode
+[  335.370093] veth6eac77f (unregistering): left promiscuous mode
+[  335.370094] docker0: port 1(veth6eac77f) entered disabled state
+[  562.592105] docker0: port 1(vethaec340c) entered blocking state
+[  562.592110] docker0: port 1(vethaec340c) entered disabled state
+[  562.592121] vethaec340c: entered allmulticast mode
+[  562.592157] vethaec340c: entered promiscuous mode
+[  562.594666] eth0: renamed from veth7c763d8
+[  562.595038] docker0: port 1(vethaec340c) entered blocking state
+[  562.595041] docker0: port 1(vethaec340c) entered forwarding state
+[ 2014.473967] initd invoked oom-killer: gfp_mask=0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=0, oom_score_adj=-999
+[ 2014.474388] CPU: 7 UID: 0 PID: 497 Comm: initd Tainted: G           O        7.0.14-linuxkit #1 PREEMPTLAZY 
+[ 2014.474584] Tainted: [O]=OOT_MODULE
+[ 2014.474586] Call trace:
+[ 2014.474592]  show_stack+0x20/0x38 (C)
+[ 2014.475654]  dump_stack_lvl+0x60/0x80
+[ 2014.475658]  dump_stack+0x18/0x24
+[ 2014.475661]  dump_header+0x48/0x190
+[ 2014.475662]  oom_kill_process+0x238/0x2c8
+[ 2014.475847]  out_of_memory+0xe4/0x390
+[ 2014.475850]  __alloc_frozen_pages_noprof+0xa60/0x1458
+[ 2014.475862]  __folio_alloc_noprof+0x1c/0x80
+[ 2014.475864]  __filemap_get_folio_mpol+0x258/0x410
+[ 2014.475866]  filemap_fault+0x40c/0xbb8
+[ 2014.475868]  __do_fault+0x44/0x138
+[ 2014.475871]  __handle_mm_fault+0x918/0x1308
+[ 2014.475872]  handle_mm_fault+0xe8/0x360
+[ 2014.475873]  do_page_fault+0x148/0x740
+[ 2014.476422]  do_translation_fault+0x38/0x60
+[ 2014.476423]  do_mem_abort+0x48/0xa0
+[ 2014.476613]  el0_da+0x34/0xa0
+[ 2014.476622]  el0t_64_sync_handler+0xd0/0xe8
+[ 2014.476623]  el0t_64_sync+0x198/0x1a0
+[ 2014.476954] Mem-Info:
+[ 2014.476956] active_anon:1120471 inactive_anon:474050 isolated_anon:0
+                active_file:178 inactive_file:2588 isolated_file:0
+                unevictable:0 dirty:0 writeback:0
+                slab_reclaimable:3280 slab_unreclaimable:8856
+                mapped:358 shmem:0 pagetables:6766
+                sec_pagetables:0 bounce:0
+                kernel_misc_reclaimable:0
+                free:14833 free_pcp:828 free_cma:0
+[ 2014.476960] Node 0 active_anon:4481884kB inactive_anon:1896200kB active_file:712kB inactive_file:10352kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:1432kB dirty:0kB writeback:0kB shmem:0kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:206848kB kernel_stack:4192kB pagetables:27064kB sec_pagetables:0kB all_unreclaimable? yes Balloon:0kB
+[ 2014.476971] DMA free:29788kB boost:0kB min:15444kB low:19304kB high:23164kB reserved_highatomic:0KB free_highatomic:0KB active_anon:2016232kB inactive_anon:200872kB active_file:160kB inactive_file:896kB unevictable:0kB writepending:0kB zspages:0kB present:2359296kB managed:2257080kB mlocked:0kB bounce:0kB free_pcp:2940kB local_pcp:1940kB free_cma:0kB
+[ 2014.476975] lowmem_reserve[]: 0 0 4221 4221
+[ 2014.476979] Normal free:30004kB boost:0kB min:29608kB low:37008kB high:44408kB reserved_highatomic:0KB free_highatomic:0KB active_anon:2465652kB inactive_anon:1695328kB active_file:612kB inactive_file:9740kB unevictable:0kB writepending:0kB zspages:0kB present:4456448kB managed:4322484kB mlocked:0kB bounce:0kB free_pcp:40kB local_pcp:4kB free_cma:0kB
+[ 2014.476982] lowmem_reserve[]: 0 0 0 0
+[ 2014.476985] DMA: 135*4kB (UM) 203*8kB (UM) 70*16kB (UM) 53*32kB (UM) 37*64kB (UM) 29*128kB (UM) 12*256kB (UM) 12*512kB (UM) 9*1024kB (UM) 1*2048kB (M) 0*4096kB = 31540kB
+[ 2014.477053] Normal: 661*4kB (UM) 267*8kB (UM) 159*16kB (UME) 69*32kB (UME) 28*64kB (UME) 19*128kB (UME) 22*256kB (UM) 12*512kB (UM) 4*1024kB (M) 0*2048kB 0*4096kB = 29628kB
+[ 2014.477073] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=1048576kB
+[ 2014.477074] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=32768kB
+[ 2014.477075] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB
+[ 2014.477076] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=64kB
+[ 2014.477077] 31343 total pagecache pages
+[ 2014.477079] 28159 pages in swap cache
+[ 2014.477080] Free swap  = 140kB
+[ 2014.477081] Total swap = 2621436kB
+[ 2014.477081] 1703936 pages RAM
+[ 2014.477082] 0 pages HighMem/MovableOnly
+[ 2014.477083] 59045 pages reserved
+[ 2014.477084] Memory cgroup min protection 0kB -- low protection 0kB
+[ 2014.477085] Tasks state (memory values in pages):
+[ 2014.477086] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[ 2014.477098] [    134]     0   134   884874     1909     1784      125         0   671744    20073          -999 initd
+[ 2014.477105] [    155]     0   155      946        0        0        0         0    45056       79          -999 sh
+[ 2014.477108] [    156]     0   156     1502        1        0        1         0    57344      102          -999 login
+[ 2014.477111] [    174]     0   174     1012        1        0        1         0    49152      132          -999 bash
+[ 2014.477113] [    201]     0   201      714        1        0        1         0    45056       43          -999 rpc.idmapd
+[ 2014.477115] [    202]   100   202     4162        1        0        1         0    69632      120          -999 rpcbind
+[ 2014.477314] [    203]     0   203     1282        1        0        1         0    45056       88          -999 rpc.statd
+[ 2014.477324] [    207]     0   207   187506        1        0        1         0   184320     1878          -999 containerd-star
+[ 2014.477334] [    254]     0   254   547575     2939     2828      111         0   360448     4354          -500 containerd
+[ 2014.477336] [    259]     0   259     1192        0        0        0         0    40960      436          -999 rosetta-mount
+[ 2014.477342] [    274]     0   274   634899     2389     2388        1         0   499712     7644          -500 dockerd
+[ 2014.477345] [    659]     0   659   317084       31       30        1         0   118784     1196          -499 containerd-shim
+[ 2014.477347] [    683]     0   683   449555   123073   123055       18         0  3141632   233977             0 R
+[ 2014.477350] [    750]     0   750   747105   407987   407969       18         0  5529600   248992             0 R
+[ 2014.477352] [    751]     0   751   747053   445557   445400      157         0  5529600   211487             0 R
+[ 2014.477359] [    752]     0   752   737986   437327   437190      137         0  5459968   210643             0 R
+[ 2014.477361] [    753]     0   753   724356   488803   488646      157         0  5349376   145543             0 R
+[ 2014.479989] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/docker/ebe1905634bda338459757d076390f1274d9fffa7153448b769079403e087c81,task=R,pid=750,uid=0
+[ 2014.482567] Out of memory: Killed process 750 (R) total-vm:2988420kB, anon-rss:1631876kB, file-rss:264kB, shmem-rss:0kB, UID:0 pgtables:5400kB oom_score_adj:0
+[ 2017.899278] docker0: port 1(vethaec340c) entered disabled state
+[ 2017.899545] veth7c763d8: renamed from eth0
+[ 2017.927917] docker0: port 1(vethaec340c) entered disabled state
+[ 2017.929522] vethaec340c (unregistering): left allmulticast mode
+[ 2017.929526] vethaec340c (unregistering): left promiscuous mode
+[ 2017.929529] docker0: port 1(vethaec340c) entered disabled state
+[ 2018.700785] docker0: port 1(veth12e63a3) entered blocking state
+[ 2018.700790] docker0: port 1(veth12e63a3) entered disabled state
+[ 2018.700798] veth12e63a3: entered allmulticast mode
+[ 2018.700843] veth12e63a3: entered promiscuous mode
+[ 2018.704070] eth0: renamed from veth7ab5d50
+[ 2018.705074] docker0: port 1(veth12e63a3) entered blocking state
+[ 2018.705077] docker0: port 1(veth12e63a3) entered forwarding state
