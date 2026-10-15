@@ -1007,3 +1007,133 @@ leave-one-out analyses.
 - The filter is `group =`, not `design =`, in `R/04-filter-genes.R`. The
   `design =` form is retained in that script for the analysis 7
   comparison.
+
+
+### 2026-10-15 — Timing results: serial versus parallel DESeq() fits
+
+This entry records the timing measurements. The configuration chosen on
+the basis of them is recorded in the entry below.
+
+**Protocol.** All 5,000-gene measurements use the same inputs.
+
+- 5,000 genes randomly sampled from the 25,836 that pass the filter, with
+  seed 20260918 and `sort()`, so the 5,000-gene configurations time the
+  same set. The 2,500-gene and 25,836-gene runs use different sets.
+- Two scripts: `R/timing-serial.R` (three phases timed separately) and
+  `R/timing-parallel.R` (a single `system.time()` around
+  `DESeq(parallel = TRUE)`).
+- Configurations: A (default BLAS threading, ~8 threads), B (single BLAS
+  thread), C (`DESeq(parallel = TRUE)` with 4 or 6 workers).
+- The image is built on each machine from the same Dockerfile, with the
+  base pinned by digest. The Bioconductor image is not used directly.
+- Container memory sampled with `docker stats` every ~5–7 s. Container
+  peaks reported below are lower bounds. R peaks come from `gc()` and are
+  exact, but cover the main process only, not the workers.
+
+#### Mac (aarch64), runs on 10-08 and 10-09
+
+The Docker VM memory was raised from 5.3 GiB (as recorded on 2026-10-06)
+to 6.27 GiB before these runs.
+
+| Config | Genes | elapsed | result |
+|---|---|---|---|
+| A | 5,000 | 1,704 s | — |
+| B | 5,000 | 4,098 s | — |
+| C, 4 workers (run 1) | 5,000 | — | OOM |
+| C, 4 workers (run 2) | 5,000 | — | OOM |
+| C, 6 workers | 5,000 | — | OOM |
+
+The `dmesg` line from run 2 is in
+`docs/timing/aarch64/dmesg-k4-rep.log`. No full-universe fit was run on
+the Mac, serial or parallel.
+
+#### Laptop (x86_64, i7-8550U, 15.5 GiB), runs on 10-10 (4-worker run 2: 10-15)
+
+Docker on this machine runs without a VM and without a per-container
+memory limit.
+
+| Config | Genes | elapsed | ratio | R peak | Container peak |
+|---|---|---|---|---|---|
+| A | 5,000 | 1,495 s | 7.93 | 2,342 MB | 3.4 GiB |
+| B | 5,000 | 489 s | 1.00 | 2,344 MB | 3.1 GiB |
+| C, 4 workers (run 1, 10-10) | 5,000 | 245.7 s | 3.69 | 1,713 MB | 8.4 GiB |
+| C, 4 workers (run 2, 10-15) | 5,000 | 224.9 s | 3.67 | 1,713 MB | not measured |
+| C, 6 workers | 5,000 | 215.5 s | 4.88 | 1,714 MB | 9.0 GiB |
+| C, 4 workers | 2,500 | 115.3 s | 3.61 | 1,524 MB | 7.3 GiB |
+| **B** | **25,836** | **2,551 s** | **1.00** | **2,570 MB** | **3.4 GiB** |
+
+The A and B container peaks are both during the R/02 data load, not
+during the fit itself.
+
+The two 4-worker runs at 5,000 genes differ by about 9% in elapsed time
+(245.7 s on 10-10, 224.9 s on 10-15): same configuration and machine, on
+different days. Run 2 was made to measure run-to-run variability, with
+the machine set up as on 10-10. The differences between configurations
+(A vs B, 3.1×; B between machines, 8.4×) are far larger than this.
+
+Scaling: from 2,500 to 5,000 genes under C with 4 workers, 2.13× (run 1)
+or 1.95× (run 2) against an expected 2×, both within run-to-run
+variability. From 5,000 to 25,836 genes under B, 5.22× against an
+expected 5.17×.
+
+The full-universe B fit was the primary model (`~ patient + condition`),
+run only to time it. The script does not print DESeq2 results and does
+not save the fitted object.
+
+#### What remains unexplained
+
+B is 8.4× faster on the laptop than on the Mac (489 s vs 4,098 s at 5,000
+genes), while A is roughly comparable (1,495 s vs 1,704 s). The reason a
+single BLAS thread behaves so differently across platforms, while the
+multithreaded configuration does not, is not established.
+
+#### Corrections to earlier entries
+
+The 2026-09-24 measurement (7.09 h, line 717 of this document) was taken
+on this same laptop, before the gene filter was decided and with ~7 BLAS
+threads. Its `system` time pattern is consistent with configuration A.
+The mechanism is not demonstrated for that specific run.
+
+The 2026-09-14 environment entry records the tag as `RELEASE_3_23`. The
+container used on 2026-09-24 was created from `:latest`; `docker inspect`
+shows digest `sha256:979991…`, the same one registered on 2026-09-14 for
+`RELEASE_3_23`, so the image was the same. What is known is how the
+container was created, not when the image was pulled.
+
+#### Cost of the full plan (estimate)
+
+The plan's subsampling section (as revised by the 2026-09-18 sizing
+entry) uses `n_repeats = 20` and n values `c(5, 10, 20, 40, 70, 113)`,
+with n = 113 collapsing to a single repetition. That gives 101 paired
+fits and 101 unpaired fits. Adding 113 leave-one-out fits and one
+analysis-7 fit gives 316 fits total.
+
+To convert these into full-fit equivalents, the cost per fit is modelled
+as proportional to `samples × coefficients² + coefficients³`, the
+standard cost shape for an iteratively reweighted least-squares fit.
+Under this model, weighted by each fit's sample count, coefficient count
+and gene count:
+
+- Leave-one-out (113 fits, 224 samples each, 113 coefficients,
+  25,836 genes): ~110 full-fit equivalents
+- Subsampling, paired (101 fits, n = 5 to 113 patients, coefficients from
+  6 to 114, 25,836 genes): ~7 full-fit equivalents
+- Subsampling, unpaired (101 fits, n = 5 to 113 patients, 2
+  coefficients, 25,836 genes): <1 full-fit equivalent
+- Analysis 7 (1 fit, 226 samples, 114 coefficients, 35,584 genes): ~1.4
+  full-fit equivalents
+- **Total: ~120 full-fit equivalents**
+
+This is an estimate from an unvalidated cost model, not a measurement.
+It does not account for differences in convergence between fits. It also
+ignores per-gene work that does not depend on the number of coefficients,
+so small fits are underestimated: each of the 101 unpaired fits still
+processes 25,836 genes. The total is approximate.
+
+At 42.5 min per full-fit equivalent (measured, configuration B on the
+full universe):
+
+- Serial, one fit at a time: **~85 h**.
+- Concurrent, if running several fits at once yields ~2× throughput:
+  **~43 h**. The 2× factor is an assumption, not measured. Measuring it
+  is the first step of the execution script.
