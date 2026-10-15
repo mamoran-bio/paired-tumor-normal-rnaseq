@@ -1138,3 +1138,86 @@ full universe):
 - Concurrent, if running several fits at once yields ~2× throughput:
   **~43 h**. The 2× factor is an assumption, not measured. Measuring it
   is the first step of the execution script.
+
+### 2026-10-15 — Computing configuration for the analysis
+
+**Decision.** The analysis runs on the x86_64 laptop. Each fit is a normal
+serial `DESeq()` with a single BLAS thread (`OPENBLAS_NUM_THREADS=1`).
+Multiple fits run concurrently, each in its own container with its own
+memory limit (`docker run --memory`). Each fit writes its result to disk
+on completion.
+
+The isolation is a design requirement, not an observed property. Without
+per-container limits, a memory kill on Linux can affect any process on the
+machine, including another running fit. The limit keeps the failure inside
+the fit that caused it.
+
+The results are identical to running the fits one at a time. Each fit is
+an independent `DESeq()` call on its own data, with no shared state. How
+many fits run at once does not change any result; it will be fixed when
+the execution script is written, bounded by available memory (at most 3
+with the current machine and dataset).
+
+**Reasons.**
+
+*Speed.* Measured on x86_64 with 5,000 genes and the same random sample:
+A (default BLAS threading, ~8 threads) took 1,495 s and B (single BLAS
+thread) took 489 s. A is 3.1× slower than B. System time in A was 5,541 s
+against 6,310 s user time over the 5,000-gene run, i.e. about half the CPU
+spent in the kernel. That is consistent with coordination between BLAS
+threads, though the mechanism is not demonstrated.
+
+On the Mac (aarch64) the ordering is reversed: A 1,704 s, B 4,098 s. The
+reason for the difference between platforms is not established here.
+
+*Memory.* A single serial fit peaks at ~2.6 GB of R memory on the full
+gene universe. The container itself reaches 3.4 GiB during the R/02 data
+load, which is the figure that matters for the `--memory` limit. C
+(`DESeq(parallel = TRUE)`) measured, on x86_64 at 5,000 genes, 8.4 GiB
+with 4 workers and 9.0 GiB with 6 workers (container peaks sampled every
+~7 s, so lower bounds), and the memory does not fall in proportion to the
+gene count: 7.3 GiB at 2,500 genes. Whether a full-universe C fit would
+fit in the laptop's 15.5 GiB is not established. Independent processes
+with per-container limits avoid the question.
+
+*Failure isolation.* On 2026-10-09 the Mac lost a C run at 5,000 genes
+when one worker died and the whole fit went with it. Independent fits do
+not have this failure mode.
+
+**Alternatives not chosen.**
+
+- **A (default BLAS threading).** 3.1× slower than B on x86_64 at 5,000
+  genes, with about half the CPU in system time. The mechanism is
+  consistent with thread coordination but not measured.
+- **B (one fit at a time, single BLAS thread).** Correct and lighter than
+  the chosen configuration, but leaves the machine's other cores idle.
+- **C (`DESeq(parallel = TRUE)`).** 8.4 GiB with 4 workers and 9.0 GiB
+  with 6 workers on x86_64 at 5,000 genes, with no proportional reduction
+  at smaller gene counts. Failed on the Mac when a worker died.
+- **Gene-block parallelism with new code.** Would require validation for
+  a marginal gain over the chosen configuration. Not pursued.
+- **Mac as compute host.** Two reasons, in order of weight. First,
+  consistency: the analysis compares fits with each other, and mixing
+  architectures would blend each platform's floating-point rounding into
+  what the comparison measures. Second, throughput: the Mac's best
+  configuration projects ~2.4 h per full fit against 42.5 min measured
+  on the x86_64 laptop, and its Docker VM of 6.27 GiB allows one full fit
+  at a time. The Mac is not excluded because it cannot run fits — A and B
+  both ran there, and a serial full fit uses ~2.6 GB (measured on
+  x86_64), well within the VM. What fails on the Mac is C. A
+  cross-platform verification (one full fit on each machine, compared) is
+  left as future work.
+
+**Platform.** This entry changes the 2026-10-06 decision that the Mac
+would be the compute host. All fits run on the x86_64 laptop. The Mac
+figures come from `docs/timing/aarch64/`, the x86_64 figures from
+`docs/timing/x86_64/`. Smoke tests (200 genes) were run before the long
+runs and were not saved; no figure in this entry comes from them.
+
+The 2026-09-24 measurement was taken on this same machine under different
+conditions: before the gene filter was decided, and with ~7 BLAS threads.
+It is superseded by the measurements in this entry.
+
+**Timing of the decision.** The configuration was chosen on 2026-10-10,
+after the measurements recorded in the preceding entry. This is the first
+written record of the choice.
