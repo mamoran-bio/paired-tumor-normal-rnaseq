@@ -1,0 +1,183 @@
+Loading required package: SummarizedExperiment
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: generics
+
+Attaching package: ‘generics’
+
+The following objects are masked from ‘package:base’:
+
+    as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,
+    setequal, union
+
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, saveRDS, table, tapply, unique,
+    unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+Loading required package: Seqinfo
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+2026-10-09 21:39:28.689493 caching file sra.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/sra/metadata/sra.recount_project.MD.gz'
+
+2026-10-09 21:39:47.088887 caching file gtex.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/gtex/metadata/gtex.recount_project.MD.gz'
+
+2026-10-09 21:40:05.52503 caching file tcga.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/tcga.recount_project.MD.gz'
+
+2026-10-09 21:40:23.983748 caching file ANSWER_ALS.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/ANSWER_ALS/metadata/ANSWER_ALS.recount_project.MD.gz'
+
+2026-10-09 21:40:42.188968 caching file TARGET_ALS.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/TARGET_ALS/metadata/TARGET_ALS.recount_project.MD.gz'
+
+2026-10-09 21:41:00.104989 caching file ega.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/ega/metadata/ega.recount_project.MD.gz'
+
+2026-10-09 21:41:17.621884 caching file LIBD.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/LIBD/metadata/LIBD.recount_project.MD.gz'
+
+2026-10-09 21:41:34.193328 downloading and reading the metadata.
+2026-10-09 21:41:40.157016 caching file tcga.tcga.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.tcga.BRCA.MD.gz'
+
+2026-10-09 21:41:57.988532 caching file tcga.recount_project.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_project.BRCA.MD.gz'
+
+2026-10-09 21:42:16.050491 caching file tcga.recount_qc.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_qc.BRCA.MD.gz'
+
+2026-10-09 21:42:34.93782 caching file tcga.recount_seq_qc.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_seq_qc.BRCA.MD.gz'
+
+2026-10-09 21:42:53.807147 downloading and reading the feature information.
+2026-10-09 21:42:59.800633 caching file human.gene_sums.G026.gtf.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/annotations/gene_sums/human.gene_sums.G026.gtf.gz'
+
+2026-10-09 21:43:12.139025 downloading and reading the counts: 1256 samples across 63856 features.
+2026-10-09 21:43:18.296337 caching file tcga.gene_sums.BRCA.G026.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/gene_sums/CA/BRCA/tcga.gene_sums.BRCA.G026.gz'
+
+2026-10-09 21:43:54.987094 constructing the RangedSummarizedExperiment (rse) object.
+RSE: 63856 genes x 1256 runs
+Read counts: max = 19759117 | lib size = 12078452 - 176403775
+After rule 3: 1232 unique aliquots
+Duplicate groups after rule 3: 12 (7 with two, 5 with three)
+Duplicate groups by sample type: 01=12
+After rule 4: 1215 aliquots
+Patients with only a metastatic tumour: 0
+After rule 2: 1208 aliquots
+Paired patients: 113
+Duplicate groups among paired patients: 4
+Final samples: 226
+counts_raw: 63856 genes x 226 samples
+coldata: 226 samples | 113 patients | 2 conditions
+design_paired: 226 x 114
+leverage: min 0.504425 | max 0.504425 | 1 / max = 1.98 samples minimum for filterByExpr(design=)
+keep_design: 35584 genes
+keep_group: 25836 genes
+genes kept by group and not by design: 0
+crosstab design x group: design only = 9748 | both = 25836 | neither = 28272
+minimum CPM threshold: 0.149
+Genes before filter: 63856 | after: 25836 (40.5% retained)
+R/02 intermediates:
+  rse            : 1333.1 MB
+  counts_reads   : 647.4 MB
+  counts_aliquot : 635.1 MB
+converting counts to integer mode
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+fit start  UTC 21:44:21
+estimating size factors
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+estimating dispersions
+gene-wise dispersion estimates: 4 workers
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+mean-dispersion relationship
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+final dispersion estimates, fitting model and testing: 4 workers
+Error in h(simpleError(msg, call)) : 
+  error in evaluating the argument 'args' in selecting a method for function 'do.call': wrong args for environment subassignment
+Calls: system.time ... .reducer_add -> .reducer_add -> .handleSimpleError -> h
+In addition: Warning message:
+In parallel::mccollect(wait = FALSE, timeout = 1) :
+  1 parallel job did not deliver a result
+Timing stopped at: 2571 56.47 1131
+Execution halted
