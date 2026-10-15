@@ -1087,23 +1087,24 @@ genes), while A is roughly comparable (1,495 s vs 1,704 s). The reason a
 single BLAS thread behaves so differently across platforms, while the
 multithreaded configuration does not, is not established.
 
-#### Corrections to earlier entries
+#### The 2026-09-24 run
 
 The 2026-09-24 measurement (7.09 h, line 717 of this document) was taken
 on this same laptop, before the gene filter was decided and with ~7 BLAS
 threads. Its `system` time pattern is consistent with configuration A.
 The mechanism is not demonstrated for that specific run.
 
-The 2026-09-14 environment entry records the tag as `RELEASE_3_23`. The
-container used on 2026-09-24 was created from `:latest`; `docker inspect`
-shows digest `sha256:979991…`, the same one registered on 2026-09-14 for
-`RELEASE_3_23`, so the image was the same. What is known is how the
-container was created, not when the image was pulled.
-
+The plan did not record which image was used for that run. `docker
+inspect` on its container shows it was created from
+`bioconductor/bioconductor_docker:latest`, image digest
+`sha256:979991813693d4256f685a565cd59560d7bca7c4d4d41f66ed5fc38b31338594`
+(a single-platform amd64 image). The pinned environment recorded on
+2026-10-06 (line 761) applies from that date on.
 #### Cost of the full plan (estimate)
 
-The plan's subsampling section (as revised by the 2026-09-18 sizing
-entry) uses `n_repeats = 20` and n values `c(5, 10, 20, 40, 70, 113)`,
+The sizing recorded in the 2026-09-18 entry (line 478), declared
+provisional by the 2026-10-06 correction until this timing was
+recorded, uses `n_repeats = 20` and n values `c(5, 10, 20, 40, 70, 113)`,
 with n = 113 collapsing to a single repetition. That gives 101 paired
 fits and 101 unpaired fits. Adding 113 leave-one-out fits and one
 analysis-7 fit gives 316 fits total.
