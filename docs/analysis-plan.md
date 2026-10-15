@@ -1100,6 +1100,7 @@ inspect` on its container shows it was created from
 `sha256:979991813693d4256f685a565cd59560d7bca7c4d4d41f66ed5fc38b31338594`
 (a single-platform amd64 image). The pinned environment recorded on
 2026-10-06 (line 761) applies from that date on.
+
 #### Cost of the full plan (estimate)
 
 The sizing recorded in the 2026-09-18 entry (line 478), declared
