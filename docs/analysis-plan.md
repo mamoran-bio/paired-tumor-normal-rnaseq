@@ -1222,3 +1222,100 @@ It is superseded by the measurements in this entry.
 **Timing of the decision.** The configuration was chosen on 2026-10-10,
 after the measurements recorded in the preceding entry. This is the first
 written record of the choice.
+
+
+### 2026-10-16 — Sizing of the subsampling and leave-one-out analyses
+
+**Context.** The 2026-09-18 entry left the subsampling parameters
+provisional pending a `system.time()` measurement on a full paired fit.
+The 2026-10-06 correction withdrew the factor-5 expectation and blocked
+both the leave-one-out and the subsampling analyses until that timing
+was recorded. The timing was recorded on 2026-10-15 in `docs/timing/`
+and in the entries of that day, not in `docs/sessionInfo.txt` as the
+2026-09-18 entry had stated. This entry revises the parameters of both
+analyses.
+
+**When this is decided.** Before any differential expression result.
+Two full DESeq() fits have been run so far, both for timing only: the
+2026-09-24 fit (interactive session) and the 2026-10-10 fit
+(`R/timing-serial.R`, full gene universe). Neither printed nor saved
+DESeq2 results, and no gene list has been inspected.
+
+**Band.** The 2026-09-18 entry specified `n_repeats` and the grid of n
+values but not the band reported around the curve. It is defined here:
+the median with a 10th-to-90th percentile band. An 80% central band
+excludes the tails, which are sensitive to single extreme draws at the
+replicate counts considered here. The 10-90 band gives a readable
+summary of the outcomes the analysis can produce without letting
+outliers set its edges.
+
+**Repetitions.** `n_repeats` rises from 20 to 50. With 50 replicates,
+about 5 values fall beyond each edge of the 10-90 band; with 20, about
+2. At 5 values, a single extreme draw moves the edge less than at 2.
+The n grid does not change: `c(5, 10, 20, 40, 70, 113)`; at n = 113
+there is a single distinct subset, so that value has one replicate.
+
+**Leave-one-out.** The analysis runs on all 113 patients, as specified
+in analysis 4 (line 92) and its implementation section (line 374): refit
+the paired model dropping each patient in turn, and report for each
+called gene the fraction of refits in which it remains significant,
+where "remains significant" means `padj < 0.05` from the refit and the
+gene universe is fixed at the primary analysis filter. The 113 refits
+are not independent: every pair shares 111 patients. What each refit
+provides is the only answer for its own patient: whether the primary
+list depends on that patient being included. That is the question the
+analysis asks, and it requires all 113. Dropping a subset of patients
+would answer a different question — whether the list survives a random
+subsample — and is not what is reported here.
+
+**Budget.** No total time cap. Runs are organised in batches of up to
+14 hours per day, with at least 10 hours of rest between them. If the
+measured cost exceeds the estimate, nothing is cut: the analysis takes
+more days. This rule does not depend on the measured cost, so no result
+can influence it.
+
+**Resulting size.** 616 fits in total:
+
+- paired subsampling: 5 values of n × 50 repeats + 1 at n = 113 = 251
+- unpaired subsampling: same grid and repeats = 251
+- leave-one-out: 113
+- analysis 7 (filter comparison): 1 additional paired fit
+
+Projected to full-fit equivalents from the measured per-fit cost and the
+cost model in the 2026-10-15 entry:
+
+- paired subsampling: ~16 full-fit equivalents
+- unpaired subsampling: under 1 by the model
+- leave-one-out: ~110
+- analysis 7: ~1.4
+- **total: ~127 full-fit equivalents**
+
+The model underestimates the unpaired fits for the same reason it does
+in the 2026-10-15 entry: it ignores per-gene work that does not depend
+on the number of coefficients, and each of the 251 unpaired fits still
+processes 25,836 genes. The unpaired cost is measured when the
+execution starts.
+
+**Duration.** At the measured 42.5 min per full-fit equivalent
+(configuration B, full gene universe, measured on 2026-10-10, recorded
+2026-10-15):
+
+- serial, one fit at a time: **~90 hours**
+- if running several fits concurrently yields ~2× throughput: **~45
+  hours**
+
+The 2× factor is an assumption, not measured. This is a projection from
+one measured full fit and an unvalidated cost model, not a measurement
+of the full analysis.
+
+**Consequence for execution.** The subsampling script and the
+leave-one-out script are both written to save each fit on completion,
+skip fits whose output file already exists, and not start a new fit
+when the daily window is close to closing. Under this rule a planned
+stop at the end of a day loses nothing. Only an unplanned interruption
+(power cut, machine hang) loses the fits that were in progress.
+
+The 43-minute figure is one full fit in serial. Under concurrency each
+fit takes longer in wall-clock terms, so the daily stop must allow for
+that. The analysis-7 fit runs on 35,584 genes rather than 25,836, and
+is projected at roughly 1 hour on its own.
