@@ -1319,3 +1319,71 @@ The 43-minute figure is one full fit in serial. Under concurrency each
 fit takes longer in wall-clock terms, so the daily stop must allow for
 that. The analysis-7 fit runs on 35,584 genes rather than 25,836, and
 is projected at roughly 1 hour on its own.
+
+### 2026-10-17 — Unpaired fit location and outlier handling
+
+**Unpaired fit.** The "Unpaired comparison" section (line 343) places the
+unpaired fit in `R/08-unpaired-comparison.R`. This conflicts with the
+Script layout table of the 2026-09-18 entry, which assigns both fits to
+`R/05-fit-models.R` and is declared authoritative for the numbering. The
+table is followed: `R/05` fits both designs on the same data with the
+same configuration; `R/08` extracts and compares.
+
+**Outlier handling under DESeq2 defaults.** DESeq2 applies two
+different outlier mechanisms by default, and both depend on the cell
+sizes of the design matrix (a cell is a group of samples with identical
+rows in the design matrix):
+
+1. **Replacement** (`minReplicatesForReplace`, default 7): replaces
+   outliers during `DESeq()`. Applies only to samples in cells with ≥ 7
+   samples.
+2. **Cook's distance flagging** (`cooksCutoff`, default TRUE): sets
+   `padj` to NA for genes with outliers during `results()`. Applies only
+   to samples in cells with ≥ 3 samples.
+
+In the paired design (`~ patient + condition`), every sample is alone in
+its cell, because every patient has their own coefficient. No cell
+reaches size 2, let alone 3 or 7. Neither mechanism can ever fire.
+In the unpaired design (`~ condition`), all 113 samples of each
+condition share a cell. Both mechanisms fire.
+
+This creates two problems for the planned analyses:
+
+- **Analysis 2 (paired vs unpaired).** Comparing the two designs would
+  confound the effect of the design with the effect of outlier removal.
+  The Cook's flagging violates the plan's rule at lines 300-301 ("the
+  number of genes entering the FDR correction is controlled by the
+  pre-filter only"): it sets `padj` to NA for genes with outliers,
+  affecting the unpaired design but never the paired one. The replacement
+  mechanism does not remove genes from the correction but changes the
+  estimates of some genes in only one design, confounding the
+  comparison.
+- **Subsampling curve (unpaired).** At n = 5 (5 samples per cell),
+  Cook's flagging applies but replacement does not; from n = 10, both
+  apply. The curve would mix two different methods, changing under the
+  same line.
+
+**Verification.** A smoke test with 200 genes was run, printing only
+diagnostics and no differential expression results:
+
+- Samples in cells ≥ 3: paired 0 · unpaired 226
+- Samples in cells ≥ 7: paired 0 · unpaired 226
+- Genes replaced during the fit: paired 0 · unpaired 12 (of 200)
+- `cooks` assay stored: paired TRUE · unpaired TRUE
+
+**Decision.** To keep the two designs comparable and the subsampling
+curve consistent:
+
+- `cooksCutoff = FALSE` in every `results()` call. This disables Cook's
+  distance flagging. The rationale is the plan's rule at lines 300-301:
+  the number of genes entering the FDR correction must depend only on
+  the pre-filter, not on the design.
+- `minReplicatesForReplace = Inf` in every `DESeq()` call. This disables
+  replacement in both designs. The rationale is comparability between
+  designs and across the subsampling curve.
+
+**Cost.** The unpaired design loses DESeq2's protection against
+outliers; this is reported as a limitation. The primary analysis (paired
+design) is unaffected: it never had that protection, because its design
+matrix never creates large enough cells. The decision is recorded here
+before any differential expression result is inspected.

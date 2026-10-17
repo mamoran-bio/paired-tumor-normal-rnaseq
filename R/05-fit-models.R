@@ -10,7 +10,11 @@
 #          results/dds_unpaired.rds
 #          results/sessionInfo.txt
 #
+# Outlier replacement is disabled in both fits (minReplicatesForReplace = Inf);
+# see the 2026-10-17 amendment.
+#
 # Run with a single BLAS thread (see 2026-10-15 amendment):
+#
 #   mkdir -p docs/logs
 #   docker run --rm -e OPENBLAS_NUM_THREADS=1 \
 #     -v "$PWD":/home/rstudio/project paired-rnaseq:dev \
@@ -84,7 +88,7 @@ if (file.exists(dds_paired_file) && !is_smoke) {
   )
   
   t_paired <- system.time({
-    dds_paired <- DESeq(dds_paired)
+    dds_paired <- DESeq(dds_paired, minReplicatesForReplace = Inf)
   })
   
   message("Paired fit elapsed: ", round(t_paired[["elapsed"]], 1), " s")
@@ -108,7 +112,7 @@ dds_unpaired <- DESeqDataSetFromMatrix(
 )
 
 t_unpaired <- system.time({
-  dds_unpaired <- DESeq(dds_unpaired)
+  dds_unpaired <- DESeq(dds_unpaired, minReplicatesForReplace = Inf)
 })
 
 message("Unpaired fit elapsed: ", round(t_unpaired[["elapsed"]], 1), " s")
