@@ -1387,3 +1387,66 @@ outliers; this is reported as a limitation. The primary analysis (paired
 design) is unaffected: it never had that protection, because its design
 matrix never creates large enough cells. The decision is recorded here
 before any differential expression result is inspected.
+
+### 2026-10-21 — Non-converged genes in the paired fit
+
+**Observation.** The paired fit (`~ patient + condition`) had 13 out of
+25,836 genes that did not converge in beta (line 170 of
+`docs/logs/05-fit-models.log`). The unpaired fit (`~ condition`) had 0
+out of 25,836. For all 13 genes, there is at least one patient with
+exactly zero counts in both their tumour and normal samples (ranging
+from 1 to 9 patients per gene). Among the 25,823 genes that did
+converge, exactly 606 (2.35%) share this same pattern. No gene without
+this pattern failed to converge. The 13 non-converged genes are not
+low-expression genes: their total read counts range from 13,063 to
+1,631,217, and between 14 and 55 of the 226 samples have zero counts for
+these genes.
+
+**Test of more iterations.** The 13 genes were refitted alone with
+`nbinomWaldTest()`, reusing the size factors and dispersion estimates of
+the full fit. The control (`maxit = 100`, the value used in the original
+fit) reproduced the failure: 0 of 13 converged. With `maxit = 500` and
+`maxit = 2000`, 0 of 13 converged. Run time did not grow with `maxit`
+(29, 27.5 and 29 s), which indicates that the iteration limit is not
+what stops these fits. For a patient with zero counts in both samples,
+the maximum-likelihood estimate of that patient's coefficient is not
+finite. This pattern is necessary but not sufficient here, since 606
+converged genes share it. Why these 13 fail is not investigated, because
+doing so would require inspecting fitted coefficients before the primary
+analysis.
+
+**Decision.** All genes, including the 13 non-converged ones, are kept
+and flagged. Excluding them would contradict lines 300-302: the number
+of genes entering the FDR correction "is controlled by the pre-filter
+only and is identical across the paired and unpaired fits". It would
+also break the fixed gene universe of the subsampling analysis (lines
+365-366) and of the leave-one-out analysis (lines 377-378): different
+genes may fail to converge in each refit, so excluding them would make
+the universe vary from one fit to another. Excluding them from the
+paired design only would also create an artificial asymmetry in
+Analysis 2 (lines 381-396): any of them called in the unpaired design
+would appear as unique to it. Keeping them is consistent with lines
+368-372, which already require convergence failures in the subsampling
+to be recorded rather than hidden.
+
+**Cost.** Up to 13 genes with unreliable paired estimates may enter the
+called gene lists. They are flagged, and the sensitivity check measures
+their impact.
+
+**Rule for all fits.** All genes are retained. Every gene-level output
+must carry a boolean column `beta_converged`. For every fit in the
+subsampling (`R/09`) in both designs, leave-one-out (`R/10`), and
+analysis 7, the number of non-converged genes must be recorded.
+
+**Sensitivity check.** As a secondary view, all Analysis 2 measures
+(lines 381-396) are recomputed after excluding any gene flagged in
+*either* design (13 genes in the full fits). Each design's `padj` values
+(each corrected over 25,836 genes) are used without recalculating
+Benjamini-Hochberg. This isolates the effect of the flagged genes.
+Recalculating BH over the remaining genes would confound their removal
+with a slight change in the correction of all other genes. The number of
+flagged genes that survive the primary FDR threshold will also be
+reported.
+
+This decision is recorded before inspecting any differential expression
+results.
