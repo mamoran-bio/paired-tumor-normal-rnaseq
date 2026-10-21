@@ -55,12 +55,21 @@ if (is_smoke) {
   counts_filtered <- counts_filtered[genes_to_keep, , drop = FALSE]
 }
 
+# --- Build gene_info (annotation for the filtered genes) -------------------
+rd <- SummarizedExperiment::rowData(rse)
+gene_info <- as.data.frame(rd[rownames(counts_filtered), 
+                              c("gene_id", "gene_name", "gene_type")])
+stopifnot(identical(gene_info$gene_id, rownames(counts_filtered)))
+annotation_version <- "gencode_v26"
+
 # --- Save inputs and free memory -------------------------------------------
 message("Saving model inputs to ", out_dir, "/model-inputs.rds")
 saveRDS(
-  list(counts_filtered = counts_filtered,
-       coldata = coldata,
-       coef_name = coef_name),
+  list(counts_filtered    = counts_filtered,
+       coldata            = coldata,
+       coef_name          = coef_name,
+       gene_info          = gene_info,
+       annotation_version = annotation_version),
   file.path(out_dir, "model-inputs.rds")
 )
 
