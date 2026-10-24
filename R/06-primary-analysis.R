@@ -9,6 +9,7 @@
 # Outputs: results/res_primary.rds
 
 library(DESeq2)
+source("R/00-helpers.R")
 
 # --- Load inputs -----------------------------------------------------------
 message("Loading models and annotations...")
@@ -62,35 +63,10 @@ message("Primary list (FDR < 0.05): ", n_sig_05, " genes")
 message("Sensitivity (FDR < 0.01):  ", n_sig_01, " genes")
 
 # --- Pre-registered controls (plan line 397) ------------------------------
-controls_up <- c("ESR1", "GATA3", "FOXA1", "XBP1",
-                 "MKI67", "TOP2A", "AURKA", "BIRC5",
-                 "CCNB1", "CDC20")
-controls_dn <- c("ADIPOQ", "FABP4", "PLIN1", "LEP", "CFD")
-
-check_controls <- function(genes, expected_sign) {
-  found <- 0
-  for (g in genes) {
-    idx <- which(res_df$gene_name == g)
-    if (length(idx) == 0) {
-      message(sprintf("Control %-6s | NOT in gene universe", g))
-      next
-    }
-    row <- res_df[idx[1], ]
-    sig <- !is.na(row$padj) && row$padj < 0.05
-    sign_ok <- sign(row$log2FoldChange) == expected_sign
-    message(sprintf("Control %-6s | log2FC %6.2f | padj %9.2e | sig %s | dir %s",
-                    g, row$log2FoldChange, row$padj,
-                    ifelse(sig, "yes", "no "),
-                    ifelse(sign_ok, "ok", "WRONG")))
-    if (sig && sign_ok) found <- found + 1
-  }
-  found
-}
-
-n_up <- check_controls(controls_up, +1)
-n_dn <- check_controls(controls_dn, -1)
-message(sprintf("Controls up:   %d / %d significant with correct direction", n_up, length(controls_up)))
-message(sprintf("Controls down: %d / %d significant with correct direction", n_dn, length(controls_dn)))
+message("--- Positive controls ---")
+n_up <- check_controls(res_df, controls_up, +1, pcol = "padj", lcol = "log2FoldChange", alpha = 0.05)
+message("--- Negative controls ---")
+n_dn <- check_controls(res_df, controls_dn, -1, pcol = "padj", lcol = "log2FoldChange", alpha = 0.05)
 
 # --- Save ------------------------------------------------------------------
 saveRDS(res_df, "results/res_primary.rds")
