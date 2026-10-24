@@ -1,0 +1,29 @@
+Loading inputs...
+Running thresholded test (lfcThreshold = 1)...
+Calculating shrunken log2FC (apeglm)...
+using 'apeglm' for LFC shrinkage. If used in published research, please cite:
+    Zhu, A., Ibrahim, J.G., Love, M.I. (2018) Heavy-tailed prior distributions for
+    sequence count data: removing the noise and preserving large differences.
+    Bioinformatics. https://doi.org/10.1093/bioinformatics/bty895
+Non-converged genes: 13 of 25836
+Secondary list (padj_thresh < 0.01): 3555 genes
+--- Positive controls at threshold ---
+Control ESR1   | log2FC_raw   1.20 | padj_thresh  8.45e-01 | sig no  | dir ok
+Control GATA3  | log2FC_raw   1.71 | padj_thresh  2.92e-04 | sig yes | dir ok
+Control FOXA1  | log2FC_raw   2.05 | padj_thresh  2.23e-05 | sig yes | dir ok
+Control XBP1   | log2FC_raw   1.06 | padj_thresh  1.00e+00 | sig no  | dir ok
+Control MKI67  | log2FC_raw   3.37 | padj_thresh  1.69e-64 | sig yes | dir ok
+Control TOP2A  | log2FC_raw   3.70 | padj_thresh  1.65e-76 | sig yes | dir ok
+Control AURKA  | log2FC_raw   2.84 | padj_thresh  4.10e-57 | sig yes | dir ok
+Control BIRC5  | log2FC_raw   3.70 | padj_thresh  2.19e-66 | sig yes | dir ok
+Control CCNB1  | log2FC_raw   2.37 | padj_thresh  2.48e-45 | sig yes | dir ok
+Control CDC20  | log2FC_raw   3.24 | padj_thresh  1.43e-59 | sig yes | dir ok
+Passed: 8 / 10
+--- Negative controls at threshold ---
+Control ADIPOQ | log2FC_raw  -5.98 | padj_thresh  4.76e-62 | sig yes | dir ok
+Control FABP4  | log2FC_raw  -5.90 | padj_thresh  2.99e-82 | sig yes | dir ok
+Control PLIN1  | log2FC_raw  -5.84 | padj_thresh  2.45e-83 | sig yes | dir ok
+Control LEP    | log2FC_raw  -7.19 | padj_thresh 2.07e-100 | sig yes | dir ok
+Control CFD    | log2FC_raw  -3.79 | padj_thresh  2.04e-45 | sig yes | dir ok
+Passed: 5 / 5
+Done. Outputs written to results/res_secondary.rds
