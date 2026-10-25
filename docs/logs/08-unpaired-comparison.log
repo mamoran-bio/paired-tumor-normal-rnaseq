@@ -1,0 +1,61 @@
+Loading data...
+Extracting unpaired results...
+Number of flagged genes to exclude in sensitivity: 13
+
+--- Controls in unpaired model (primary) ---
+Control ESR1   | log2FoldChange   1.86 | padj  8.72e-20 | sig yes | dir ok
+Control GATA3  | log2FoldChange   1.81 | padj  2.34e-27 | sig yes | dir ok
+Control FOXA1  | log2FoldChange   1.93 | padj  1.74e-20 | sig yes | dir ok
+Control XBP1   | log2FoldChange   1.09 | padj  6.31e-15 | sig yes | dir ok
+Control MKI67  | log2FoldChange   3.18 | padj  5.04e-81 | sig yes | dir ok
+Control TOP2A  | log2FoldChange   3.74 | padj  1.55e-89 | sig yes | dir ok
+Control AURKA  | log2FoldChange   3.13 | padj 7.69e-133 | sig yes | dir ok
+Control BIRC5  | log2FoldChange   3.36 | padj  1.93e-75 | sig yes | dir ok
+Control CCNB1  | log2FoldChange   2.55 | padj 5.43e-129 | sig yes | dir ok
+Control CDC20  | log2FoldChange   3.39 | padj  1.37e-94 | sig yes | dir ok
+Passed: 10 / 10
+Control ADIPOQ | log2FoldChange  -4.68 | padj  2.54e-48 | sig yes | dir ok
+Control FABP4  | log2FoldChange  -4.81 | padj  7.60e-70 | sig yes | dir ok
+Control PLIN1  | log2FoldChange  -4.97 | padj  4.61e-75 | sig yes | dir ok
+Control LEP    | log2FoldChange  -5.98 | padj  5.53e-82 | sig yes | dir ok
+Control CFD    | log2FoldChange  -3.32 | padj  1.22e-50 | sig yes | dir ok
+Passed: 5 / 5
+
+--- Controls in unpaired model (secondary) ---
+Control ESR1   | log2FC_raw   1.86 | padj_thresh  9.11e-05 | sig yes | dir ok
+Control GATA3  | log2FC_raw   1.81 | padj_thresh  4.65e-06 | sig yes | dir ok
+Control FOXA1  | log2FC_raw   1.93 | padj_thresh  2.87e-05 | sig yes | dir ok
+Control XBP1   | log2FC_raw   1.09 | padj_thresh  1.00e+00 | sig no  | dir ok
+Control MKI67  | log2FC_raw   3.18 | padj_thresh  2.44e-38 | sig yes | dir ok
+Control TOP2A  | log2FC_raw   3.74 | padj_thresh  3.50e-48 | sig yes | dir ok
+Control AURKA  | log2FC_raw   3.13 | padj_thresh  1.23e-61 | sig yes | dir ok
+Control BIRC5  | log2FC_raw   3.36 | padj_thresh  2.00e-37 | sig yes | dir ok
+Control CCNB1  | log2FC_raw   2.55 | padj_thresh  5.13e-48 | sig yes | dir ok
+Control CDC20  | log2FC_raw   3.39 | padj_thresh  3.42e-47 | sig yes | dir ok
+Passed: 9 / 10
+Control ADIPOQ | log2FC_raw  -4.68 | padj_thresh  6.81e-30 | sig yes | dir ok
+Control FABP4  | log2FC_raw  -4.81 | padj_thresh  8.54e-44 | sig yes | dir ok
+Control PLIN1  | log2FC_raw  -4.97 | padj_thresh  7.25e-48 | sig yes | dir ok
+Control LEP    | log2FC_raw  -5.98 | padj_thresh  1.36e-56 | sig yes | dir ok
+Control CFD    | log2FC_raw  -3.32 | padj_thresh  5.75e-25 | sig yes | dir ok
+Passed: 5 / 5
+
+==================================================
+ANALYSIS 2 SUMMARY
+Metric               |    Primary |  Secondary
+Paired genes         |      20620 |       3555
+Unpaired genes       |      20106 |       3235
+Jaccard index        |      0.825 |      0.583
+Sign concordance     |      0.977 |      0.992
+Unique to paired     |       2212 |       1055
+Unique to unpaired   |       1698 |        735
+--------------------------------------------------
+SENSITIVITY (excluding 13 flagged genes)
+Jaccard index        |      0.825 |      0.584
+Sign concordance     |      0.977 |      0.992
+==================================================
+ANALYSIS 3 SUMMARY (Dispersion)
+  Paired median:    0.1902
+  Unpaired median:  0.2413
+==================================================
+R/08 complete.
