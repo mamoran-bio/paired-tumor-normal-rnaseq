@@ -1450,3 +1450,29 @@ reported.
 
 This decision is recorded before inspecting any differential expression
 results.
+
+### 2026-10-26 — Seed derivation for parallel subsampling
+
+**Deviation from the single-seed design.** Line 353 of the plan states
+`set.seed(20260918)` at the start of the subsampling block. This implies
+a sequential loop in a single R session, where the random number
+generator state advances naturally from one iteration to the next.
+
+**Implementation change.** The subsampling is executed as independent R
+processes (one Docker container per fit) to parallelize the computation
+across available cores. Because the processes do not share memory or an
+R session, a single global seed cannot be passed between them. Instead,
+each process derives its own seed using the formula
+`20260918L + n * 1000L + rep`.
+
+**Statistical equivalence.** This change preserves the independence of
+the random patient subsets. With `n` taking values up to 113 and `rep`
+up to 50, the derived seeds fall into disjoint numerical ranges (e.g.,
+5000–5050, 10000–10050). There are no collisions between combinations
+of `n` and `rep`. Consequently, every replicate across every value of
+`n` draws an independent subset of patients, exactly as the original
+sequential block was designed to do. The base seed (20260918) remains
+the same.
+
+This decision is recorded before the subsampling full run is executed
+and before any aggregate result from the subsampling is inspected.
