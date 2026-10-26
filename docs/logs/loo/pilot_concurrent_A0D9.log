@@ -1,0 +1,26 @@
+Loading inputs...
+Primary significant genes to evaluate: 20620
+Omit patient: TCGA-A7-A0D9
+Fitting model...
+converting counts to integer mode
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+estimating size factors
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+estimating dispersions
+gene-wise dispersion estimates
+mean-dispersion relationship
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+final dispersion estimates
+fitting model and testing
+18 rows did not converge in beta, labelled in mcols(object)$betaConv. Use larger maxit argument with nbinomWaldTest
+Fit time: 3485.7s | Still significant: 20487 / 20620 | Non-converged: 18
+Done.
