@@ -9,7 +9,7 @@ mkdir -p "$LOG_DIR"
 # We use a small R command to extract them
 echo "Extracting patient list..."
 docker run --rm -v "$PWD":/home/rstudio/project paired-rnaseq:dev \
-  Rscript -e 'inputs <- readRDS("results/model-inputs.rds"); cat(unique(inputs$coldata$patient), sep="\n")' > /tmp/loo_tasks.txt
+  Rscript -e 'inputs <- readRDS("results/model-inputs.rds"); cat(as.character(unique(inputs$coldata$patient)), sep="\n")' > /tmp/loo_tasks.txt
 
 TOTAL=$(wc -l < /tmp/loo_tasks.txt)
 echo "Starting Leave-One-Out for $TOTAL patients with $MAX_JOBS parallel jobs..."
