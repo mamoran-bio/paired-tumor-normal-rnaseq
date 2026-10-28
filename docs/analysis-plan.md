@@ -1476,3 +1476,32 @@ the same.
 
 This decision is recorded before the subsampling full run is executed
 and before any aggregate result from the subsampling is inspected.
+
+### 2026-10-28 — Addition of publication figures (R/12-plots.R)
+
+**Purpose.** The plan specifies the statistical analyses and the CSV outputs to be published, and does not name specific publication figures. This entry records the addition of a dedicated figure-generation script, `R/12-plots.R`, which outputs PNG files to `docs/figures/`.
+
+**Only visualization.** The script strictly reads the stored result objects (`results/*.rds`). It does not add new statistical tests, new filters, or new thresholds. It visualizes what has already been computed and reported.
+
+**Log2FC to plot.** Both the Volcano and MA plots use the raw `log2FoldChange` from `res_primary`, the table whose log2 fold changes the plan designates for ranking and interpretation (lines 319-320). Although the plan allows shrunken log2FC for visualisation (line 330), we do not use it here. This ensures that both the x-axis and the y-axis (padj) come from the same statistical test, avoiding the visual conflation of a shrunken estimate with a primary FDR.
+
+**Transparency on presentation.** Because the figures are generated after the results are known, presentation decisions are made with knowledge of the results. For example, the LOO stability histogram uses a bin width of 0.02 (with boundary = 1 and closed = "left") to isolate the large mass of genes exactly at 1.0 (97.7% of the list). These decisions affect only the visual presentation and do not change any reported numbers.
+
+**Figures and thresholds.**
+1. **Volcano plot** (Primary Analysis 1): raw log2FoldChange vs -log10(padj), both from `res_primary`. Primary significance is defined as padj < 0.05 (line 66). The lines at |log2FC| = 1 are a visual reference derived from the null hypothesis of the secondary analysis (lines 325-326); they do not define the significance class in this plot.
+2. **MA plot** (Primary Analysis 1): log10(baseMean) vs raw log2FoldChange, coloured by padj < 0.05 (line 66).
+3. **Subsampling curve** (Analysis 5): median significant genes and 10th-to-90th percentile bands (line 1246), based on 50 replicates (line 1252) and counting significant genes as padj < 0.05 in `R/09`.
+4. **Leave-one-out stability histogram** (Analysis 4): distribution of stability fractions over the 20,620 genes of the primary list, where "significant" means padj < 0.05 in the refit (line 379).
+
+**Palette.** Figures use the Okabe-Ito color palette to ensure readability for readers with color vision deficiencies:
+- `#0072B2` (blue) for primary/paired data.
+- `#D55E00` (vermillion) for unpaired/comparison data.
+- `#999999` (neutral grey) for non-significant points.
+
+This decision is recorded before the figure-generation script is committed.
+
+### 2026-10-28 — Correction to the figures entry (LOO histogram bins)
+
+**Correction.** The previous entry specifies `boundary = 1` and `closed = "left"` to isolate the genes at exactly 1.0. In ggplot2 4.0.3 those arguments place the value 1.0 in the bin [0.98, 1.00], together with genes at 111/113 and 112/113, so the bin does not isolate it. The script sets explicit bin edges at integer multiples of 0.02 so that the bin [1.00, 1.02) contains only genes at 1.0, and checks this with `stopifnot()`. The bin width and the purpose are unchanged.
+
+This correction is recorded before the figure-generation script is committed.
