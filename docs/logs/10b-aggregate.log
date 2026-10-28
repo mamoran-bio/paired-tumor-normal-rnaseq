@@ -1,0 +1,35 @@
+Loading leave-one-out fits...
+Loaded 113 fits.
+
+==================================================
+LEAVE-ONE-OUT SUMMARY (n=113 refits)
+  Median fit time   : 57.6 min
+  Total compute time: 108.3 hours
+  Non-converged genes (median per refit): 21
+--------------------------------------------------
+Gene Stability:
+  Genes with 100% stability (113/113): 20152
+  Genes with >95% stability          : 20235
+  Genes with <50% stability          : 37
+  Median stability across all genes  : 1
+==================================================
+
+Control stability:
+      gene_name stability_fraction
+1341      AURKA                  1
+1411      BIRC5                  1
+1483       ESR1                  1
+1690       XBP1                  1
+2578      GATA3                  1
+3532      CDC20                  1
+4592      FOXA1                  1
+4830      TOP2A                  1
+5070      CCNB1                  1
+6772      MKI67                  1
+8755      PLIN1                  1
+9323      FABP4                  1
+9918        LEP                  1
+10630    ADIPOQ                  1
+12037       CFD                  1
+
+Saved to results/analysis_4.rds
