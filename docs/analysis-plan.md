@@ -1499,3 +1499,9 @@ and before any aggregate result from the subsampling is inspected.
 - `#999999` (neutral grey) for non-significant points.
 
 This decision is recorded before the figure-generation script is committed.
+
+### 2026-10-28 — Correction to the figures entry (LOO histogram bins)
+
+**Correction.** The previous entry specifies `boundary = 1` and `closed = "left"` to isolate the genes at exactly 1.0. In ggplot2 4.0.3 those arguments place the value 1.0 in the bin [0.98, 1.00], together with genes at 111/113 and 112/113, so the bin does not isolate it. The script sets explicit bin edges at integer multiples of 0.02 so that the bin [1.00, 1.02) contains only genes at 1.0, and checks this with `stopifnot()`. The bin width and the purpose are unchanged.
+
+This correction is recorded before the figure-generation script is committed.
