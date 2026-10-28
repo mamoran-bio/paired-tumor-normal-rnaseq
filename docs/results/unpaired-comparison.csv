@@ -1,0 +1,8 @@
+"metric","primary","secondary","primary_sensitivity","secondary_sensitivity"
+"Paired_genes",20620,3555,20608,3548
+"Unpaired_genes",20106,3235,20096,3227
+"Shared_genes",18408,2500,18399,2497
+"Unique_to_paired",2212,1055,2209,1051
+"Unique_to_unpaired",1698,735,1697,730
+"Jaccard",0.824805090061833,0.582750582750583,0.82488231338265,0.583683964469378
+"Sign_concordance",0.977238157322903,0.992,0.977444426327518,0.991990388466159
