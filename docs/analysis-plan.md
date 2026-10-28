@@ -1506,18 +1506,28 @@ This decision is recorded before the figure-generation script is committed.
 
 This correction is recorded before the figure-generation script is committed.
 
+---
+
+*The plan above is frozen at commit `fa40885`. Any errata or amendment appended
+below is a later addition and does not alter the frozen text.*
+
 # Errata — Analysis plan
 
 Corrected plan: `docs/analysis-plan.md` (commit `fa40885`, 2026-10-28)
 
-## E1 — Histogram bin edges in the leave-one-out figure
+### E1 — Histogram bin edges in the leave-one-out figure
 
-**Affects:** §[section of the plan where the bins were specified]
+**Affects:** §2026-10-28 — Addition of publication figures (R/12-plots.R)
 **Detected:** 2026-10-28, during the implementation of `R/12-plots.R`
 **Type:** specification correction (does not change hypotheses or models)
 
 **Original specification (frozen):**
-> [verbatim text from the plan on the bin specification]
+> **Transparency on presentation.** Because the figures are generated after the
+> results are known, presentation decisions are made with knowledge of the
+> results. For example, the LOO stability histogram uses a bin width of 0.02
+> (with boundary = 1 and closed = "left") to isolate the large mass of genes
+> exactly at 1.0 (97.7% of the list). These decisions affect only the visual
+> presentation and do not change any reported numbers.
 
 **Correction:**
 In ggplot2 4.0.3, `boundary = 1` with `closed = "left"` places the value 1.0 in
@@ -1529,6 +1539,7 @@ specification does not produce the intended bin; the correction preserves the
 intent.
 
 **Correction commit:** `<hash of R/12-plots.R>`
+
 ## Add publication figures (R/12-plots.R)
 
 `R/12-plots.R` draws four figures from the stored result objects
