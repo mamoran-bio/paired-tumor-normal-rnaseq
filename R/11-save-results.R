@@ -5,18 +5,36 @@
 # in docs/analysis-plan.md lines 455-459, plus the sessionInfo of the
 # container in which R/11 ran (line 451).
 
+message("Loading packages to record their versions in sessionInfo...")
+suppressPackageStartupMessages({
+  library(DESeq2)
+  library(apeglm)
+  library(edgeR)
+  library(recount3)
+})
+
 message("Saving final results to docs/results/...")
 dir.create("docs/results", showWarnings = FALSE, recursive = TRUE)
 
+# Load analysis_2 first to get the expected counts for the sanity checks
+analysis_2 <- readRDS("results/analysis_2.rds")
+
 # --- 1. Primary (plan line 455) --------------------------------------------
 res_primary <- readRDS("results/res_primary.rds")
-write.csv(res_primary,
+primary_list <- res_primary[!is.na(res_primary$padj) & res_primary$padj < 0.05, ]
+stopifnot(nrow(primary_list) == analysis_2$primary$n_paired)
+
+write.csv(primary_list,
           "docs/results/primary-paired.csv",
           row.names = FALSE)
 
 # --- 2. Secondary high-confidence (plan line 456) --------------------------
 res_secondary <- readRDS("results/res_secondary.rds")
-write.csv(res_secondary,
+secondary_list <- res_secondary[!is.na(res_secondary$padj_thresh) &
+                                res_secondary$padj_thresh < 0.01, ]
+stopifnot(nrow(secondary_list) == analysis_2$secondary$n_paired)
+
+write.csv(secondary_list,
           "docs/results/secondary-paired-highconfidence.csv",
           row.names = FALSE)
 
@@ -24,7 +42,6 @@ write.csv(res_secondary,
 # Summary of Analysis 2 metrics (paired vs unpaired) for primary and
 # secondary, plus the pre-registered sensitivity (2026-10-21 amendment:
 # exclude the 13 non-converged paired genes, use original padj).
-analysis_2 <- readRDS("results/analysis_2.rds")
 
 row_names <- c("Paired_genes", "Unpaired_genes",
                "Shared_genes",
