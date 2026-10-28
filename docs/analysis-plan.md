@@ -1508,27 +1508,27 @@ This correction is recorded before the figure-generation script is committed.
 
 # Errata — Analysis plan
 
-Plan corregido: `docs/analysis-plan.md` (commit `fa40885`, 2026-10-28)
+Corrected plan: `docs/analysis-plan.md` (commit `fa40885`, 2026-10-28)
 
 ## E1 — Histogram bin edges in the leave-one-out figure
 
-**Afecta a:** §[sección del plan donde se especificaban los bins]
-**Detectado:** 2026-10-28, durante la implementación de `R/12-plots.R`
-**Tipo:** corrección de especificación (no cambia hipótesis ni modelo)
+**Affects:** §[section of the plan where the bins were specified]
+**Detected:** 2026-10-28, during the implementation of `R/12-plots.R`
+**Type:** specification correction (does not change hypotheses or models)
 
-**Especificación original (congelada):**
-> [texto literal del plan sobre los bins]
+**Original specification (frozen):**
+> [verbatim text from the plan on the bin specification]
 
-**Corrección:**
-En ggplot2 4.0.3, `boundary = 1` con `closed = "left"` coloca el valor 1.0 en el
-bin [0.98, 1.00]. El script fija los bordes de bin explícitamente y verifica el
-bin con `stopifnot()`.
+**Correction:**
+In ggplot2 4.0.3, `boundary = 1` with `closed = "left"` places the value 1.0 in
+the bin [0.98, 1.00]. The script sets explicit bin edges and checks the bin with
+`stopifnot()`.
 
-**Justificación:** el comportamiento del motor gráfico hace que la especificación
-original no produzca el bin pretendido; la corrección preserva la intención.
+**Justification:** the graphics engine's behaviour means the original
+specification does not produce the intended bin; the correction preserves the
+intent.
 
-**Commit de la corrección:** `<hash de R/12-plots.R>`
-
+**Correction commit:** `<hash of R/12-plots.R>`
 ## Add publication figures (R/12-plots.R)
 
 `R/12-plots.R` draws four figures from the stored result objects
