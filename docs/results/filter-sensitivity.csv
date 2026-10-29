@@ -1,0 +1,15 @@
+"metric","value"
+"genes_in_universe_A",25836
+"genes_in_universe_B",35584
+"genes_unique_to_design_filter",9748
+"significant_A",20620
+"significant_B",25979
+"significant_in_both",20544
+"significant_in_A_only",76
+"significant_in_B_only",5435
+"jaccard",0.788485895221646
+"significant_B_among_unique_genes",5435
+"nonconverged_A",13
+"nonconverged_B",173
+"controls_passing_A",15
+"controls_passing_B",15

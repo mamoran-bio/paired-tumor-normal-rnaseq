@@ -1,0 +1,144 @@
+Starting Analysis 7 at 2026-10-29 00:54:01
+Generating inputs for Analysis 7 (design = filter)...
+2026-10-29 00:54:06.335733 caching file sra.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/sra/metadata/sra.recount_project.MD.gz'
+
+2026-10-29 00:54:08.816314 caching file gtex.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/gtex/metadata/gtex.recount_project.MD.gz'
+
+2026-10-29 00:54:10.616263 caching file tcga.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/tcga.recount_project.MD.gz'
+
+2026-10-29 00:54:12.379811 caching file ANSWER_ALS.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/ANSWER_ALS/metadata/ANSWER_ALS.recount_project.MD.gz'
+
+2026-10-29 00:54:14.257337 caching file TARGET_ALS.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/TARGET_ALS/metadata/TARGET_ALS.recount_project.MD.gz'
+
+2026-10-29 00:54:16.004189 caching file ega.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/ega/metadata/ega.recount_project.MD.gz'
+
+2026-10-29 00:54:17.724967 caching file LIBD.recount_project.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/LIBD/metadata/LIBD.recount_project.MD.gz'
+
+2026-10-29 00:54:23.344713 downloading and reading the metadata.
+2026-10-29 00:54:23.894348 caching file tcga.tcga.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.tcga.BRCA.MD.gz'
+
+2026-10-29 00:54:25.683099 caching file tcga.recount_project.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_project.BRCA.MD.gz'
+
+2026-10-29 00:54:27.380023 caching file tcga.recount_qc.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_qc.BRCA.MD.gz'
+
+2026-10-29 00:54:29.468037 caching file tcga.recount_seq_qc.BRCA.MD.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/metadata/CA/BRCA/tcga.recount_seq_qc.BRCA.MD.gz'
+
+2026-10-29 00:54:31.576566 downloading and reading the feature information.
+2026-10-29 00:54:32.102976 caching file human.gene_sums.G026.gtf.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/annotations/gene_sums/human.gene_sums.G026.gtf.gz'
+
+2026-10-29 00:54:33.713448 downloading and reading the counts: 1256 samples across 63856 features.
+2026-10-29 00:54:34.266269 caching file tcga.gene_sums.BRCA.G026.gz.
+adding rname 'http://duffel.rail.bio/recount3/human/data_sources/tcga/gene_sums/CA/BRCA/tcga.gene_sums.BRCA.G026.gz'
+
+2026-10-29 00:54:49.798303 constructing the RangedSummarizedExperiment (rse) object.
+RSE: 63856 genes x 1256 runs
+Read counts: max = 19759117 | lib size = 12078452 - 176403775
+After rule 3: 1232 unique aliquots
+Duplicate groups after rule 3: 12 (7 with two, 5 with three)
+Duplicate groups by sample type: 01=12
+After rule 4: 1215 aliquots
+Patients with only a metastatic tumour: 0
+After rule 2: 1208 aliquots
+Paired patients: 113
+Duplicate groups among paired patients: 4
+Final samples: 226
+counts_raw: 63856 genes x 226 samples
+coldata: 226 samples | 113 patients | 2 conditions
+design_paired: 226 x 114
+leverage: min 0.504425 | max 0.504425 | 1 / max = 1.98 samples minimum for filterByExpr(design=)
+keep_design: 35584 genes
+keep_group: 25836 genes
+genes kept by group and not by design: 0
+crosstab design x group: design only = 9748 | both = 25836 | neither = 28272
+minimum CPM threshold: 0.149
+Genes before filter: 63856 | after: 25836 (40.5% retained)
+Fitting paired model on expanded universe...
+converting counts to integer mode
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+estimating size factors
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+estimating dispersions
+gene-wise dispersion estimates
+mean-dispersion relationship
+  Note: levels of factors in the design contain characters other than
+  letters, numbers, '_' and '.'. It is recommended (but not required) to use
+  only letters, numbers, and delimiters '_' or '.', as these are safe characters
+  for column names in R. [This is a message, not a warning or an error]
+final dispersion estimates
+fitting model and testing
+173 rows did not converge in beta, labelled in mcols(object)$betaConv. Use larger maxit argument with nbinomWaldTest
+Extracting results...
+--- Controls in A ---
+Control ESR1   | log2FoldChange   1.20 | padj  4.92e-09 | sig yes | dir ok
+Control GATA3  | log2FoldChange   1.71 | padj  4.67e-21 | sig yes | dir ok
+Control FOXA1  | log2FoldChange   2.05 | padj  1.47e-18 | sig yes | dir ok
+Control XBP1   | log2FoldChange   1.06 | padj  7.90e-14 | sig yes | dir ok
+Control MKI67  | log2FoldChange   3.37 | padj 7.28e-130 | sig yes | dir ok
+Control TOP2A  | log2FoldChange   3.70 | padj 1.30e-143 | sig yes | dir ok
+Control AURKA  | log2FoldChange   2.84 | padj 4.00e-135 | sig yes | dir ok
+Control BIRC5  | log2FoldChange   3.70 | padj 2.08e-124 | sig yes | dir ok
+Control CCNB1  | log2FoldChange   2.37 | padj 5.38e-134 | sig yes | dir ok
+Control CDC20  | log2FoldChange   3.24 | padj 4.11e-124 | sig yes | dir ok
+Passed: 10 / 10
+Control ADIPOQ | log2FoldChange  -5.98 | padj  1.54e-89 | sig yes | dir ok
+Control FABP4  | log2FoldChange  -5.90 | padj 1.43e-119 | sig yes | dir ok
+Control PLIN1  | log2FoldChange  -5.84 | padj 1.02e-121 | sig yes | dir ok
+Control LEP    | log2FoldChange  -7.19 | padj 5.13e-136 | sig yes | dir ok
+Control CFD    | log2FoldChange  -3.79 | padj  1.67e-83 | sig yes | dir ok
+Passed: 5 / 5
+--- Controls in B ---
+Control ESR1   | log2FoldChange   1.20 | padj  5.94e-09 | sig yes | dir ok
+Control GATA3  | log2FoldChange   1.71 | padj  6.01e-21 | sig yes | dir ok
+Control FOXA1  | log2FoldChange   2.05 | padj  1.88e-18 | sig yes | dir ok
+Control XBP1   | log2FoldChange   1.06 | padj  9.79e-14 | sig yes | dir ok
+Control MKI67  | log2FoldChange   3.37 | padj 1.07e-129 | sig yes | dir ok
+Control TOP2A  | log2FoldChange   3.70 | padj 1.94e-143 | sig yes | dir ok
+Control AURKA  | log2FoldChange   2.84 | padj 5.60e-135 | sig yes | dir ok
+Control BIRC5  | log2FoldChange   3.70 | padj 3.23e-124 | sig yes | dir ok
+Control CCNB1  | log2FoldChange   2.37 | padj 6.68e-134 | sig yes | dir ok
+Control CDC20  | log2FoldChange   3.24 | padj 6.06e-124 | sig yes | dir ok
+Passed: 10 / 10
+Control ADIPOQ | log2FoldChange  -5.98 | padj  2.11e-89 | sig yes | dir ok
+Control FABP4  | log2FoldChange  -5.90 | padj 2.32e-119 | sig yes | dir ok
+Control PLIN1  | log2FoldChange  -5.84 | padj 1.65e-121 | sig yes | dir ok
+Control LEP    | log2FoldChange  -7.19 | padj 7.04e-136 | sig yes | dir ok
+Control CFD    | log2FoldChange  -3.79 | padj  2.46e-83 | sig yes | dir ok
+Passed: 5 / 5
+
+--- Analysis 7 Summary ---
+                             metric        value
+1               genes_in_universe_A 2.583600e+04
+2               genes_in_universe_B 3.558400e+04
+3     genes_unique_to_design_filter 9.748000e+03
+4                     significant_A 2.062000e+04
+5                     significant_B 2.597900e+04
+6               significant_in_both 2.054400e+04
+7             significant_in_A_only 7.600000e+01
+8             significant_in_B_only 5.435000e+03
+9                           jaccard 7.884859e-01
+10 significant_B_among_unique_genes 5.435000e+03
+11                   nonconverged_A 1.300000e+01
+12                   nonconverged_B 1.730000e+02
+13               controls_passing_A 1.500000e+01
+14               controls_passing_B 1.500000e+01
+Saved to results/analysis_7.rds and docs/results/filter-sensitivity.csv
+Finished Analysis 7 at 2026-10-29 02:14:40
+Total elapsed time: 80.7 minutes
