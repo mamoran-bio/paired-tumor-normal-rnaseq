@@ -1505,3 +1505,17 @@ This decision is recorded before the figure-generation script is committed.
 **Correction.** The previous entry specifies `boundary = 1` and `closed = "left"` to isolate the genes at exactly 1.0. In ggplot2 4.0.3 those arguments place the value 1.0 in the bin [0.98, 1.00], together with genes at 111/113 and 112/113, so the bin does not isolate it. The script sets explicit bin edges at integer multiples of 0.02 so that the bin [1.00, 1.02) contains only genes at 1.0, and checks this with `stopifnot()`. The bin width and the purpose are unchanged.
 
 This correction is recorded before the figure-generation script is committed.
+
+### 2026-10-28 — Addition of the analysis 7 script (R/13-filter-sensitivity.R)
+
+**Purpose.** The plan's script layout (the script list ending at line 251) and script table (lines 535-545) list scripts only up to `R/11`, and neither `R/13` nor its output is named in the plan. This entry records the addition of `R/13-filter-sensitivity.R`, which executes the redefined Analysis 7, in the same way as `R/12` was added for the figures.
+
+**Model B.** B differs from A only in the gene universe: the 35,584 genes kept by `design =` (the 25,836 genes of A are a subset of them, which `R/04` checks with `stopifnot()`). B is fitted with `DESeq(dds, minReplicatesForReplace = Inf)` on `~ patient + condition`, as in `R/05`, and extracted with `results(name = coef_name, independentFiltering = FALSE, cooksCutoff = FALSE)`, as in `R/06`. The statement that the paired and unpaired fits share an identical gene universe (lines 293-295) refers to fits within one filter; in Analysis 7 the two universes differ by design.
+
+**Definitions.** A gene is significant when `padj < 0.05` and `padj` is not `NA` (line 66). B uses its own `padj`, computed over its 35,584 genes and not recalculated, because the universe changes the multiple-testing correction (lines 988-991). The overlap between the two lists is reported as the number of genes significant in both fits, significant in A only, significant in B only, and as the Jaccard index, with the same definitions as `R/08`.
+
+**Quantities reported.** The script will report the three quantities specified in lines 984-996: how many genes are significant in each fit, the overlap between the two lists, and how many of the 9,748 genes unique to `design =` are significant in B. It will also report the number of non-converged genes in A and B (line 1436) and the status of the 15 pre-registered controls. Any additional metric is reported as exploratory.
+
+**Output.** The script writes `results/analysis_7.rds` (containing the full results table and metrics) and `docs/results/filter-sensitivity.csv`. The CSV uses a long format with two columns (`metric`, `value`) and rows for: `genes_in_universe_A`, `genes_in_universe_B`, `genes_unique_to_design_filter`, `significant_A`, `significant_B`, `significant_in_both`, `significant_in_A_only`, `significant_in_B_only`, `jaccard`, `significant_B_among_unique_genes`, `nonconverged_A`, `nonconverged_B`, `controls_passing_A`, `controls_passing_B`. The full results table (`results/analysis_7.rds`) carries `beta_converged` as required by line 1436. Unlike the other CSVs in `docs/results/`, which are written by `R/11`, this file is written directly by `R/13`.
+
+This decision is recorded before the analysis 7 script is committed.
